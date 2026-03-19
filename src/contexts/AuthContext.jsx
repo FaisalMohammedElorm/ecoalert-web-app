@@ -34,12 +34,20 @@ export function AuthProvider({ children }) {
 
   const signup = async (email, password, name, phone) => {
     setIsLoading(true);
-    const result = await authService.signup(email, password, name, phone);
-    if (result.success) {
-      setUser(result.user);
+    try {
+      const result = await authService.signup(email, password, name, phone);
+      if (result.success) {
+        setUser(result.user);
+        // Optional: Wait a moment for Firestore to be fully written
+        await new Promise(resolve => setTimeout(resolve, 500));
+      }
+      setIsLoading(false);
+      return result;
+    } catch (error) {
+      console.error('Signup error:', error);
+      setIsLoading(false);
+      return { success: false, error: 'Signup failed' };
     }
-    setIsLoading(false);
-    return result;
   };
 
   const logout = async () => {

@@ -212,32 +212,44 @@ export const authService = {
    * @returns {function} Unsubscribe function
    */
   onAuthStateChanged(callback) {
-    return auth.onAuthStateChanged(async (user) => {
-      if (user) {
+    return auth.onAuthStateChanged(async (firebaseUser) => {
+      if (firebaseUser) {
         try {
-          const userRef = doc(db, 'users', user.uid);
+          const userRef = doc(db, 'users', firebaseUser.uid);
           const userDoc = await getDoc(userRef);
 
           if (userDoc.exists()) {
             const userData = userDoc.data();
             callback({
-              uid: user.uid,
-              email: user.email,
+              uid: firebaseUser.uid,
+              email: firebaseUser.email,
               name: userData.name,
               phone: userData.phone,
               location: userData.location,
               profilePictureUrl: userData.profilePictureUrl
             });
           } else {
+            // If Firestore doc doesn't exist yet, use Firebase Auth data as fallback
             callback({
-              uid: user.uid,
-              email: user.email,
-              name: user.displayName
+              uid: firebaseUser.uid,
+              email: firebaseUser.email,
+              name: firebaseUser.displayName || '',
+              phone: '',
+              location: '',
+              profilePictureUrl: ''
             });
           }
         } catch (error) {
-          console.error('Error fetching user data:', error);
-          callback(null);
+          console.error('Error fetching user data from Firestore:', error);
+          // Fallback: use Firebase Auth user if Firestore read fails
+          callback({
+            uid: firebaseUser.uid,
+            email: firebaseUser.email,
+            name: firebaseUser.displayName || '',
+            phone: '',
+            location: '',
+            profilePictureUrl: ''
+          });
         }
       } else {
         callback(null);
