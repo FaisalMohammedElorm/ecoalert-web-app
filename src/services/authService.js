@@ -9,8 +9,10 @@ import {
 import { auth, db } from '../firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 
-// Set Firebase Auth persistence to LOCAL
-setPersistence(auth, browserLocalPersistence);
+// Set Firebase Auth persistence to LOCAL (async)
+setPersistence(auth, browserLocalPersistence).catch(error => {
+  console.error('Error setting persistence:', error);
+});
 
 export const authService = {
   /**

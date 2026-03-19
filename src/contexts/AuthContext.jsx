@@ -32,7 +32,7 @@ export function AuthProvider({ children }) {
     return result;
   };
 
-  const signup = async (name, email, password, phone) => {
+  const signup = async (email, password, name, phone) => {
     setIsLoading(true);
     const result = await authService.signup(email, password, name, phone);
     if (result.success) {

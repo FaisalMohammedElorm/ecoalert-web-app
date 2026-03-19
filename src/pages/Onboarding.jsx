@@ -48,8 +48,8 @@ export default function Onboarding() {
           {FEATURES.map(({ icon: Icon, title, desc }, i) => (
             <div
               key={title}
-              className="flex flex-col items-center text-center gap-3 bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl p-5 stagger-1 animate-fade-up h-full"
-              style={{ animationDelay: `${0.1 * (i + 1)}s`, opacity: 0 }}
+              className="flex flex-col items-center text-center gap-3 bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl p-5 animate-fade-up h-full"
+              style={{ animationDelay: `${0.1 * (i + 1)}s` }}
             >
               <div className="w-10 h-10 bg-white/15 rounded-xl flex items-center justify-center flex-shrink-0">
                 <Icon size={20} className="text-eco-200" />

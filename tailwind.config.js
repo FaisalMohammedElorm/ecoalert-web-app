@@ -31,6 +31,7 @@ export default {
         'slide-in': 'slideIn 0.5s ease forwards',
         'pulse-green': 'pulseGreen 2s ease-in-out infinite',
         'float': 'float 3s ease-in-out infinite',
+        'stagger-1': 'fadeUp 0.6s ease forwards',
       },
       keyframes: {
         fadeUp: {

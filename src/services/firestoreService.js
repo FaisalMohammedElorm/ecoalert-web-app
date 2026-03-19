@@ -13,7 +13,6 @@ import {
   startAfter,
   increment,
   increment as firestoreIncrement,
-  timestamps,
   Timestamp
 } from 'firebase/firestore';
 import { auth, db } from '../firebase';

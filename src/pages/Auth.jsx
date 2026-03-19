@@ -26,7 +26,7 @@ export default function Auth() {
     setIsLoading(true);
     const result = isLogin
       ? await login(form.email, form.password)
-      : await signup(form.name, form.email, form.password, form.phone);
+      : await signup(form.email, form.password, form.name, form.phone);
     setIsLoading(false);
 
     if (result.success) navigate('/home');
