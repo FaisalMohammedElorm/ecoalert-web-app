@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, ArrowRight } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
@@ -6,12 +6,19 @@ import ecoAlertLogo from '../assets/EcoAlert.png';
 
 export default function Auth() {
   const navigate = useNavigate();
-  const { login, signup } = useAuth();
+  const { login, signup, user } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
   const [showPass, setShowPass] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [form, setForm] = useState({ name: '', email: '', phone: '', password: '', confirmPassword: '' });
+
+  // Redirect to home when user is authenticated
+  useEffect(() => {
+    if (user) {
+      navigate('/home', { replace: true });
+    }
+  }, [user, navigate]);
 
   const set = (k) => (e) => setForm(p => ({ ...p, [k]: e.target.value }));
 
@@ -29,8 +36,7 @@ export default function Auth() {
       : await signup(form.email, form.password, form.name, form.phone);
     setIsLoading(false);
 
-    if (result.success) navigate('/home');
-    else setError(result.error || 'Authentication failed. Please try again.');
+    if (!result.success) setError(result.error || 'Authentication failed. Please try again.');
   };
 
   return (

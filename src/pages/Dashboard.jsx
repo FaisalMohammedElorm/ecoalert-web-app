@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { BarChart2, Recycle, Award, TrendingUp, Calendar, CheckCircle, Clock, AlertTriangle } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useWaste } from '../contexts/WasteContext';
 import { getReports } from '../services/reportsService';
 import StatCard from '../components/StatCard';
 
@@ -13,6 +14,7 @@ const MAX = Math.max(...MONTHLY.map(m => m.value));
 
 export default function Dashboard() {
   const { user, isLoading: authLoading } = useAuth();
+  const { pickupRequests } = useWaste();
   const [reports, setReports] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeMonth, setActiveMonth] = useState(null);
@@ -37,6 +39,7 @@ export default function Dashboard() {
   const verified = reports.filter(r => r.status === 'verified').length;
   const resolved = reports.filter(r => r.status === 'resolved').length;
   const resolutionRate = total > 0 ? Math.round((resolved / total) * 100) : 0;
+  const userReports = reports.filter(r => r.userId === user?.uid);
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 pb-16 pt-4">

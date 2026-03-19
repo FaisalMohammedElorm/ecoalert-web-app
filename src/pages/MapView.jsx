@@ -77,7 +77,10 @@ export default function MapView() {
 
   useEffect(() => {
     async function initMap() {
-      if (mapInstanceRef.current) return;
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
       L = (await import('leaflet')).default;
 
       const lat = parseFloat(searchParams.get('lat')) || 5.5600;

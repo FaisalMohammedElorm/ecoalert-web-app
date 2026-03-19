@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Camera, ImageIcon, MapPin, X, CheckCircle, Upload, AlertTriangle } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useWaste } from '../contexts/WasteContext';
 import { CATEGORIES, reverseGeocode, createReport } from '../services/reportsService';
 import Toast, { useToast } from '../components/Toast';
 
