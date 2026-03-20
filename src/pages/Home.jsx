@@ -119,8 +119,8 @@ export default function Home() {
                 <div className="mb-4 inline-flex p-3 rounded-xl group-hover:scale-110 transition-transform duration-300" style={{ backgroundColor: `${color}15` }}>
                   <Icon size={24} style={{ color }} />
                 </div>
-                <p className="font-display font-bold text-gray-900 text-sm group-hover:text-eco-600 transition-colors leading-tight">{title}</p>
-                <p className="text-xs text-gray-500 mt-1 hidden sm:block">{desc}</p>
+                <p className="font-display font-bold text-eco-600 dark:text-eco-400 text-sm group-hover:text-eco-700 dark:group-hover:text-eco-300 transition-colors leading-tight">{title}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 hidden sm:block">{desc}</p>
               </div>
 
               <ArrowRight size={16} className="absolute bottom-4 right-4 text-gray-300 group-hover:text-eco-500 group-hover:translate-x-1 transition-all duration-300 opacity-0 group-hover:opacity-100" />
@@ -143,7 +143,7 @@ export default function Home() {
               <MapPin size={28} className="text-eco-600" />
             </div>
             <div>
-              <p className="font-display font-bold text-gray-900 text-lg group-hover:text-eco-600 transition-colors">Find Issues Near Me</p>
+              <p className="font-display font-bold text-lg text-eco-600 transition-colors">Find Issues Near Me</p>
               <p className="text-sm text-gray-500 mt-1">Auto-detect & browse nearby reports</p>
             </div>
           </button>
@@ -214,7 +214,7 @@ export default function Home() {
                   </div>
                   
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-display font-bold text-gray-900 group-hover:text-eco-600 transition-colors">
+                    <p className="text-sm font-display font-bold text-eco-600 transition-colors">
                       {report.category || 'Environmental Issue'}
                     </p>
                     <div className="flex items-center gap-1.5 text-xs text-gray-500 mt-1">

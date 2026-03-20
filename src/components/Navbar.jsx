@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Map, Home, AlertTriangle, BarChart2, Bell, User, Menu, X, LogOut } from 'lucide-react';
+import { Map, Home, AlertTriangle, BarChart2, Bell, User, Menu, X, LogOut, Moon, Sun } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useDarkMode } from '../contexts/DarkModeContext';
 import ecoAlertLogo from '../assets/EcoAlert.png';
 
 const NAV_LINKS = [
@@ -16,6 +17,7 @@ export default function Navbar() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const { isDark, toggleDarkMode } = useDarkMode();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -34,8 +36,8 @@ export default function Navbar() {
     <>
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled 
-          ? 'bg-white/80 backdrop-blur-xl shadow-lg border-b border-gray-100/50' 
-          : 'bg-white/60 backdrop-blur-md border-b border-transparent'
+          ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl shadow-lg border-b border-gray-100/50 dark:border-gray-800/50' 
+          : 'bg-white/60 dark:bg-gray-900/60 backdrop-blur-md border-b border-transparent'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -85,9 +87,17 @@ export default function Navbar() {
               </Link>
 
               <div className="flex items-center gap-2">
+                <button 
+                  onClick={toggleDarkMode}
+                  className="p-2.5 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200"
+                  title={isDark ? 'Light mode' : 'Dark mode'}
+                >
+                  {isDark ? <Sun size={18} /> : <Moon size={18} />}
+                </button>
+
                 <Link 
                   to="/notifications" 
-                  className="hidden md:inline-flex p-2 rounded-lg text-gray-600 hover:text-eco-600 hover:bg-eco-50 transition-all duration-200 relative"
+                  className="hidden md:inline-flex p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-eco-600 dark:hover:text-eco-400 hover:bg-eco-50 dark:hover:bg-gray-800 transition-all duration-200 relative"
                 >
                   <Bell size={18} />
                   <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse" />
@@ -95,14 +105,14 @@ export default function Navbar() {
 
                 <Link 
                   to="/profile" 
-                  className="w-9 h-9 rounded-lg bg-gradient-to-br from-eco-100 to-eco-50 flex items-center justify-center hover:shadow-md transition-all duration-200 group"
+                  className="w-9 h-9 rounded-lg bg-gradient-to-br from-eco-100 to-eco-50 dark:from-eco-900 dark:to-eco-800 flex items-center justify-center hover:shadow-md transition-all duration-200 group"
                 >
-                  <User size={16} className="text-eco-700 group-hover:text-eco-800" />
+                  <User size={16} className="text-eco-700 dark:text-eco-300 group-hover:text-eco-800 dark:group-hover:text-eco-200" />
                 </Link>
 
                 <button 
                   onClick={handleLogout} 
-                  className="hidden md:inline-flex p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-colors duration-200"
+                  className="hidden md:inline-flex p-2 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors duration-200"
                   title="Logout"
                 >
                   <LogOut size={16} />
@@ -124,9 +134,9 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {menuOpen && (
         <div className="fixed inset-0 z-40 md:hidden" onClick={() => setMenuOpen(false)}>
-          <div className="absolute inset-0 bg-black/30 backdrop-blur-sm animate-fade-in" />
+          <div className="absolute inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-sm animate-fade-in" />
           <div
-            className="absolute top-16 left-0 right-0 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-2xl p-4 space-y-1 animate-slide-down"
+            className="absolute top-16 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 shadow-2xl p-4 space-y-1 animate-slide-down"
             onClick={e => e.stopPropagation()}
           >
             {NAV_LINKS.map(({ to, label, icon: Icon }) => {
