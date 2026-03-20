@@ -113,7 +113,7 @@ export default function Report() {
     <div className="max-w-2xl mx-auto px-4 sm:px-6 pb-16 pt-4">
       <Toast toast={toast} hide={hideToast} />
       <div className="mb-6 animate-fade-up">
-        <h1 className="text-3xl font-display font-bold text-gray-900">Report an Issue</h1>
+        <h1 className="text-3xl font-display font-bold text-eco-500">Report an Issue</h1>
         <p className="text-gray-500 mt-1 text-sm">Help us identify and resolve environmental problems in your area.</p>
       </div>
 
