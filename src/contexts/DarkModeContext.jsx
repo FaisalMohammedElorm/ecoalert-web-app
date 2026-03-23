@@ -26,10 +26,7 @@ export function DarkModeProvider({ children }) {
   }, [isDark]);
 
   const toggleDarkMode = () => {
-    setIsDark(prev => {
-      console.log('Toggling dark mode from', prev, 'to', !prev);
-      return !prev;
-    });
+    setIsDark(prev => !prev);
   };
 
   return (

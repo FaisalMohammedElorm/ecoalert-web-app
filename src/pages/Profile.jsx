@@ -10,7 +10,7 @@ export default function Profile() {
   const { reports } = useWaste();
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
-  const userReports = reports.filter(r => r.userId === user?.id);
+  const userReports = reports.filter(r => r.userId === user?.uid);
   const resolved = userReports.filter(r => r.status === 'resolved').length;
 
   const stats = [

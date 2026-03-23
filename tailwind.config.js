@@ -89,14 +89,3 @@ export default {
   },
   plugins: [],
 }
-          '50%': { boxShadow: '0 0 0 12px rgba(76,175,80,0)' },
-        },
-        float: {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-8px)' },
-        },
-      },
-    },
-  },
-  plugins: [],
-}
