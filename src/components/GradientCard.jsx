@@ -26,10 +26,10 @@ export default function GradientCard({
             )}
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">{subtitle}</p>
-              <p className="text-2xl sm:text-3xl font-display font-black text-gray-900 mt-0.5">{value}</p>
+              <p className="text-2xl sm:text-3xl font-display font-black text-gray-900 dark:text-eco-400 mt-0.5">{value}</p>
             </div>
           </div>
-          <p className="text-sm font-semibold text-gray-700 group-hover:text-eco-600 transition-colors">{title}</p>
+          <p className="text-sm font-semibold text-gray-700 dark:text-white group-hover:text-eco-600 transition-colors">{title}</p>
         </div>
       </div>
 

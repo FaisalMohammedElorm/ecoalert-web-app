@@ -10,9 +10,9 @@ export default function SectionHeader({
       <div>
         <div className="flex items-center gap-3 mb-2">
           {Icon && <Icon size={20} className="text-eco-500" />}
-          <h2 className="text-xl font-display font-bold text-gray-900">{title}</h2>
+          <h2 className="text-xl font-display font-bold text-gray-900 dark:text-white">{title}</h2>
         </div>
-        {subtitle && <p className="text-sm text-gray-500 ml-8">{subtitle}</p>}
+        {subtitle && <p className="text-sm text-gray-500 dark:text-white ml-8">{subtitle}</p>}
       </div>
       {action && (
         <button

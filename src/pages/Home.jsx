@@ -151,7 +151,7 @@ export default function Home() {
           {/* Activity Insights Card */}
           <div className="card hover:shadow-xl hover:-translate-y-1">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-display font-bold text-gray-900">Community Activity</h3>
+              <h3 className="font-display font-bold text-gray-900 dark:text-eco-400">Community Activity</h3>
               <TrendingUp size={18} className="text-eco-500" />
             </div>
 

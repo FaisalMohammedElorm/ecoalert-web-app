@@ -37,11 +37,11 @@ export default function HeroSection({
             </div>
           )}
           
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-black text-white leading-tight mb-4 animate-fade-up" style={{ animationDelay: '0.1s' }}>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-black text-white leading-tight mb-4 animate-fade-up" style={{ animationDelay: '0.1s' }}>
             {title}
           </h1>
           
-          <p className="text-lg text-white/90 leading-relaxed mb-8 max-w-xl animate-fade-up" style={{ animationDelay: '0.2s' }}>
+          <p className="text-base text-white/80 leading-snug mb-8 max-w-xl animate-fade-up" style={{ animationDelay: '0.2s' }}>
             {subtitle}
           </p>
 
