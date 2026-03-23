@@ -242,26 +242,26 @@ export default function Home() {
       {/* ═══════════════════════════════════════════════════════════
           CTA BANNER
           ═══════════════════════════════════════════════════════════ */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 stagger-5 animate-fade-up">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-eco-500 via-eco-600 to-eco-700 p-6 sm:p-8 flex items-center justify-between gap-6">
+      <div className="max-w-5xl mx-auto px-3 sm:px-4 md:px-6 stagger-5 animate-fade-up">
+        <div className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-eco-500 via-eco-600 to-eco-700 p-4 sm:p-6 md:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 md:gap-6">
           {/* Animated background elements */}
           <div className="absolute right-0 top-0 h-full w-96 bg-white/5 transform skew-x-12 translate-x-24 pointer-events-none animate-float" />
           <div className="absolute -left-10 -bottom-10 w-32 h-32 bg-white/10 rounded-full blur-2xl animate-pulse-soft" />
 
           <div className="relative z-10 flex-1">
-            <h3 className="text-2xl sm:text-3xl font-display font-black text-white leading-tight">
+            <h3 className="text-lg sm:text-2xl md:text-3xl font-display font-black text-white leading-tight">
               🌍 Ready to Make a Difference?
             </h3>
-            <p className="text-eco-200/90 text-sm sm:text-base mt-2">
+            <p className="text-eco-200/90 text-xs sm:text-sm md:text-base mt-1 sm:mt-2">
               Join thousands of Ghanaians keeping our communities clean. Report an issue today!
             </p>
           </div>
 
           <button
             onClick={() => navigate('/report')}
-            className="relative z-10 bg-white text-eco-700 font-display font-bold px-6 py-3 rounded-xl text-sm sm:text-base hover:bg-eco-50 active:scale-95 transition-all duration-200 flex items-center gap-2 flex-shrink-0 shadow-lg hover:shadow-xl whitespace-nowrap"
+            className="relative z-10 bg-white text-eco-700 font-display font-bold px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm md:text-base hover:bg-eco-50 active:scale-95 transition-all duration-200 flex items-center gap-1.5 sm:gap-2 flex-shrink-0 shadow-lg hover:shadow-xl whitespace-nowrap"
           >
-            <Leaf size={16} /> Get Started
+            <Leaf size={12} className="sm:w-4 sm:h-4 md:w-5 md:h-5" /> Get Started
           </button>
         </div>
       </div>

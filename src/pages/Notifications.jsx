@@ -27,7 +27,7 @@ export default function Notifications() {
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 pb-16 pt-4">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6 animate-fade-up">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6 mb-6 animate-fade-up">
         <div>
           <h1 className="text-3xl font-display font-bold text-gray-900 dark:text-eco-400">Notifications</h1>
           {unread > 0 && <p className="text-eco-600 dark:text-eco-400 text-sm mt-0.5 font-medium">{unread} unread</p>}

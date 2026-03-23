@@ -77,36 +77,56 @@ export default function MapView() {
 
   useEffect(() => {
     async function initMap() {
+      // Prevent multiple initializations
       if (mapInstanceRef.current) {
-        mapInstanceRef.current.remove();
-        mapInstanceRef.current = null;
+        return;
       }
+
+      // Clean up any existing Leaflet instance on the container
+      if (mapRef.current && mapRef.current._leaflet_id) {
+        delete mapRef.current._leaflet_id;
+      }
+
       L = (await import('leaflet')).default;
+
+      // Ensure mapRef exists
+      if (!mapRef.current) return;
 
       const lat = parseFloat(searchParams.get('lat')) || 5.5600;
       const lng = parseFloat(searchParams.get('lng')) || -0.2057;
 
-      const map = L.map(mapRef.current, { zoomControl: false }).setView([lat, lng], 12);
-      mapInstanceRef.current = map;
+      try {
+        const map = L.map(mapRef.current, { zoomControl: false }).setView([lat, lng], 12);
+        mapInstanceRef.current = map;
 
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '© OpenStreetMap © CARTO',
-        subdomains: 'abcd',
-        maxZoom: 20,
-      }).addTo(map);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+          attribution: '© OpenStreetMap © CARTO',
+          subdomains: 'abcd',
+          maxZoom: 20,
+        }).addTo(map);
 
-      L.control.zoom({ position: 'bottomright' }).addTo(map);
+        L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-      setMapReady(true);
+        setMapReady(true);
+      } catch (error) {
+        console.error('Map initialization error:', error);
+      }
     }
+
     initMap();
+
     return () => {
       if (mapInstanceRef.current) {
-        mapInstanceRef.current.remove();
+        try {
+          mapInstanceRef.current.remove();
+        } catch (error) {
+          console.error('Error removing map:', error);
+        }
         mapInstanceRef.current = null;
+        setMapReady(false);
       }
     };
-  }, []);
+  }, [searchParams]);
 
   useEffect(() => {
     if (!mapReady || !mapInstanceRef.current || !L) return;
