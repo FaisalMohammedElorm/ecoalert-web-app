@@ -77,31 +77,14 @@ export const authService = {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Fetch additional user data from Firestore
-      const userRef = doc(db, 'users', user.uid);
-      const userDoc = await getDoc(userRef);
-
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
-        return {
-          success: true,
-          user: {
-            uid: user.uid,
-            email: user.email,
-            name: userData.name,
-            phone: userData.phone,
-            location: userData.location,
-            profilePictureUrl: userData.profilePictureUrl
-          }
-        };
-      }
-
+      // Return basic user info immediately for faster auth
+      // Additional Firestore data will be fetched in background if needed
       return {
         success: true,
         user: {
           uid: user.uid,
           email: user.email,
-          name: user.displayName
+          displayName: user.displayName || email.split('@')[0]
         }
       };
     } catch (error) {

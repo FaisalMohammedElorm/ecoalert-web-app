@@ -13,13 +13,22 @@ export function AuthProvider({ children }) {
     const onboarding = localStorage.getItem('eco_onboarding');
     setHasSeenOnboarding(onboarding === 'true');
 
+    // Set a timeout to prevent indefinite loading (max 5 seconds)
+    const timeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 5000);
+
     // Subscribe to Firebase Auth state changes
     const unsubscribe = authService.onAuthStateChanged((firebaseUser) => {
+      clearTimeout(timeout);
       setUser(firebaseUser);
       setIsLoading(false);
     });
 
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+      clearTimeout(timeout);
+    };
   }, []);
 
   const login = async (email, password) => {
@@ -38,8 +47,6 @@ export function AuthProvider({ children }) {
       const result = await authService.signup(email, password, name, phone);
       if (result.success) {
         setUser(result.user);
-        // Optional: Wait a moment for Firestore to be fully written
-        await new Promise(resolve => setTimeout(resolve, 500));
       }
       setIsLoading(false);
       return result;

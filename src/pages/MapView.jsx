@@ -226,7 +226,7 @@ export default function MapView() {
                   <span className="text-lg flex-shrink-0">{cat.emoji}</span>
                   <div className="min-w-0 flex-1">
                     <p className="text-xs font-semibold text-gray-800 group-hover:text-eco-600 transition-colors truncate">{report.category}</p>
-                    <p className="text-xs text-gray-400 truncate">{report.location}</p>
+                    <p className="text-xs text-gray-400 dark:text-white truncate">{report.location}</p>
                     <StatusBadge status={report.status} />
                   </div>
                 </button>

@@ -31,7 +31,7 @@ export default function ReportCard({ report, onClick }) {
             {report.description || 'No description provided.'}
           </p>
 
-          <div className="flex items-center gap-3 text-xs text-gray-400">
+          <div className="flex items-center gap-3 text-xs text-gray-400 dark:text-white">
             <span className="flex items-center gap-1">
               <MapPin size={11} />
               <span className="truncate max-w-[140px]">{report.location}</span>
