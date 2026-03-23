@@ -47,12 +47,13 @@ export default function Notifications() {
       </div>
 
       {items.length === 0 ? (
-        <div className="card flex flex-col items-center py-16 text-center animate-fade-up">
-          <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mb-4">
-            <Bell size={28} className="text-gray-300" />
+        <div className="card flex flex-col items-center py-20 sm:py-16 text-center animate-fade-up">
+          <div className="w-20 h-20 sm:w-16 sm:h-16 bg-gray-100 rounded-2xl flex items-center justify-center mb-6 sm:mb-4">
+            <Bell size={32} className="text-gray-300 sm:hidden" />
+            <Bell size={28} className="text-gray-300 hidden sm:inline" />
           </div>
-          <p className="font-display font-bold text-gray-500">No notifications</p>
-          <p className="text-xs text-gray-400 mt-1">You're all caught up!</p>
+          <p className="font-display font-bold text-gray-500 text-lg sm:text-base">No notifications</p>
+          <p className="text-sm sm:text-xs text-gray-400 mt-2 sm:mt-1">You're all caught up!</p>
         </div>
       ) : (
         <div className="space-y-2">
@@ -62,29 +63,30 @@ export default function Notifications() {
               <div
                 key={id}
                 onClick={() => markRead(id)}
-                className={`card !p-4 flex items-start gap-3 cursor-pointer hover:shadow-md transition-all duration-200 ${!read ? 'ring-1 ring-eco-100' : ''}`}
+                className={`card !p-5 sm:!p-4 flex items-start gap-4 sm:gap-3 cursor-pointer hover:shadow-md transition-all duration-200 ${!read ? 'ring-1 ring-eco-100' : ''}`}
               >
                 <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                  className="w-12 h-12 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center flex-shrink-0"
                   style={{ backgroundColor: `${iconColor}18` }}
                 >
-                  <Icon size={18} style={{ color: iconColor }} />
+                  <Icon size={20} className="sm:hidden" style={{ color: iconColor }} />
+                  <Icon size={18} className="hidden sm:inline" style={{ color: iconColor }} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-0.5">
-                    <p className={`text-sm font-semibold ${!read ? 'text-gray-900' : 'text-gray-600'} dark:text-eco-400`}>{title}</p>
+                  <div className="flex items-center gap-2 mb-1 sm:mb-0.5">
+                    <p className={`text-base sm:text-sm font-semibold ${!read ? 'text-gray-900' : 'text-gray-600'} dark:text-eco-400`}>{title}</p>
                     {!read && <span className="w-2 h-2 rounded-full bg-eco-500 flex-shrink-0" />}
                   </div>
-                  <p className="text-xs text-gray-500 dark:text-white leading-relaxed mb-1.5">{description}</p>
+                  <p className="text-sm sm:text-xs text-gray-500 dark:text-white leading-relaxed mb-2 sm:mb-1.5">{description}</p>
                   <div className="flex items-center gap-2">
                     <span
-                      className="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full"
+                      className="inline-flex items-center gap-1 text-sm sm:text-xs font-medium px-2.5 sm:px-2 py-1 sm:py-0.5 rounded-full"
                       style={{ backgroundColor: colors.bg, color: colors.dot }}
                     >
                       <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: colors.dot }} />
                       {status}
                     </span>
-                    <span className="text-xs text-gray-300">{time}</span>
+                    <span className="text-sm sm:text-xs text-gray-300">{time}</span>
                   </div>
                 </div>
                 <button

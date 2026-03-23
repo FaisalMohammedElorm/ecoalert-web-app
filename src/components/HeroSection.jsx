@@ -1,6 +1,7 @@
 import { ArrowRight, Leaf } from 'lucide-react';
 
 export default function HeroSection({ 
+  greeting,
   title, 
   subtitle, 
   cta, 
@@ -35,6 +36,12 @@ export default function HeroSection({
               <Leaf size={12} sm:size={14} className="text-white" />
               <span className="text-xs font-semibold text-white uppercase tracking-wider">{badge}</span>
             </div>
+          )}
+          
+          {greeting && (
+            <p className="text-base sm:text-lg text-white/90 font-medium mb-2 animate-fade-up" style={{ animationDelay: '0.05s' }}>
+              {greeting}
+            </p>
           )}
           
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-black text-white leading-tight mb-3 sm:mb-4 animate-fade-up" style={{ animationDelay: '0.1s' }}>

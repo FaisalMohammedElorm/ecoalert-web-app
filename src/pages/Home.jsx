@@ -32,7 +32,7 @@ export default function Home() {
   const { reports, getPendingReports } = useWaste();
   const { toast, show: showToast, hide: hideToast } = useToast();
 
-  const firstName = user?.displayName?.split(' ')[0] || user?.email?.split('@')[0] || 'User';
+  const firstName = user?.name?.split(' ')[0] || user?.displayName?.split(' ')[0] || user?.email?.split('@')[0] || 'User';
   const pending = getPendingReports().length;
   const total = reports.length;
   const resolved = reports.filter(r => r.status === 'resolved').length;
@@ -58,7 +58,8 @@ export default function Home() {
           ═══════════════════════════════════════════════════════════ */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <HeroSection
-          title={`Keep Ghana Clean, ${firstName}`}
+          greeting={`Hello ${firstName}!`}
+          title="Keep Ghana Clean"
           subtitle="Report environmental issues, track cleanup progress, and join thousands making a difference."
           badge="Environmental Platform"
           cta="Report an Issue"
