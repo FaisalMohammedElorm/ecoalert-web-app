@@ -97,7 +97,15 @@ export default function MapView() {
       const lng = parseFloat(searchParams.get('lng')) || -0.2057;
 
       try {
-        const map = L.map(mapRef.current, { zoomControl: false }).setView([lat, lng], 12);
+        const map = L.map(mapRef.current, { 
+          zoomControl: false,
+          dragging: true,
+          touchZoom: true,
+          doubleClickZoom: true,
+          scrollWheelZoom: true,
+          tap: true,
+          tapTolerance: 15,
+        }).setView([lat, lng], 12);
         mapInstanceRef.current = map;
 
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
@@ -159,7 +167,7 @@ export default function MapView() {
   return (
     <div className="relative h-[calc(100vh-64px)] overflow-hidden">
       {/* Map container */}
-      <div ref={mapRef} className="absolute inset-0 z-0" />
+      <div ref={mapRef} className="absolute inset-0 z-0" style={{ touchAction: 'none' }} />
 
       {/* Top controls */}
       <div className="absolute top-4 left-4 right-4 z-10 flex items-center gap-2">
