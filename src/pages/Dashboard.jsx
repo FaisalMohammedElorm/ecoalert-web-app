@@ -134,7 +134,7 @@ export default function Dashboard() {
                 <Icon size={20} style={{ color }} />
               </div>
               <div className="flex-1">
-                <p className="text-sm font-semibold text-gray-800">{title}</p>
+                <p className="text-sm font-semibold text-gray-800 dark:text-white">{title}</p>
                 <p className="text-xs text-gray-400 mt-0.5">{value}</p>
               </div>
               <TrendingUp size={18} className="text-eco-300" />

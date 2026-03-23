@@ -2,7 +2,7 @@ export default function StatCard({ label, value, color = '#4CAF50', icon: Icon, 
   return (
     <div className="card flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <p className="text-xs font-bold uppercase tracking-widest text-gray-400">{label}</p>
+        <p className="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-white">{label}</p>
         {Icon && (
           <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${color}18` }}>
             <Icon size={16} style={{ color }} />
@@ -10,7 +10,7 @@ export default function StatCard({ label, value, color = '#4CAF50', icon: Icon, 
         )}
       </div>
       <p className="text-3xl font-display font-bold" style={{ color }}>{value}</p>
-      {sublabel && <p className="text-xs text-gray-400">{sublabel}</p>}
+      {sublabel && <p className="text-xs text-gray-400 dark:text-white">{sublabel}</p>}
     </div>
   );
 }
