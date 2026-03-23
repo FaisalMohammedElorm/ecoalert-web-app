@@ -144,8 +144,18 @@ export const authService = {
               });
             }
           } catch (error) {
-            console.error('Error fetching user data:', error);
-            resolve(null);
+            // Handle offline gracefully with fallback
+            if (error?.code === 'failed-precondition' || error?.message?.includes('offline')) {
+              console.warn('Firestore offline - using Firebase Auth data:', error);
+            } else {
+              console.error('Error fetching user data:', error);
+            }
+            resolve({
+              uid: user.uid,
+              email: user.email,
+              name: user.displayName,
+              offline: true
+            });
           }
         } else {
           resolve(null);
@@ -223,7 +233,12 @@ export const authService = {
             });
           }
         } catch (error) {
-          console.error('Error fetching user data from Firestore:', error);
+          // Handle offline and other errors gracefully
+          if (error?.code === 'failed-precondition' || error?.message?.includes('offline')) {
+            console.warn('Firestore offline - using cached data:', error);
+          } else {
+            console.error('Error fetching user data from Firestore:', error);
+          }
           // Fallback: use Firebase Auth user if Firestore read fails
           callback({
             uid: firebaseUser.uid,
