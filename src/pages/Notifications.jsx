@@ -29,8 +29,8 @@ export default function Notifications() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6 animate-fade-up">
         <div>
-          <h1 className="text-3xl font-display font-bold text-gray-900">Notifications</h1>
-          {unread > 0 && <p className="text-eco-600 text-sm mt-0.5 font-medium">{unread} unread</p>}
+          <h1 className="text-3xl font-display font-bold text-gray-900 dark:text-eco-400">Notifications</h1>
+          {unread > 0 && <p className="text-eco-600 dark:text-eco-400 text-sm mt-0.5 font-medium">{unread} unread</p>}
         </div>
         {items.length > 0 && (
           <div className="flex gap-2">
@@ -72,10 +72,10 @@ export default function Notifications() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <p className={`text-sm font-semibold ${!read ? 'text-gray-900' : 'text-gray-600'}`}>{title}</p>
+                    <p className={`text-sm font-semibold ${!read ? 'text-gray-900' : 'text-gray-600'} dark:text-eco-400`}>{title}</p>
                     {!read && <span className="w-2 h-2 rounded-full bg-eco-500 flex-shrink-0" />}
                   </div>
-                  <p className="text-xs text-gray-500 leading-relaxed mb-1.5">{description}</p>
+                  <p className="text-xs text-gray-500 dark:text-white leading-relaxed mb-1.5">{description}</p>
                   <div className="flex items-center gap-2">
                     <span
                       className="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full"

@@ -46,8 +46,8 @@ export default function Dashboard() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6 animate-fade-up">
         <div>
-          <h1 className="text-3xl font-display font-bold text-gray-900">Dashboard</h1>
-          <p className="text-gray-500 text-sm mt-1">Community impact overview</p>
+          <h1 className="text-3xl font-display font-bold text-gray-900 dark:text-eco-400">Dashboard</h1>
+          <p className="text-gray-500 dark:text-eco-400 text-sm mt-1">Community impact overview</p>
         </div>
         <div className="flex items-center gap-2 bg-white border border-gray-100 rounded-xl px-3 py-2 text-sm text-gray-500 shadow-sm">
           <Calendar size={14} className="text-eco-500" />
