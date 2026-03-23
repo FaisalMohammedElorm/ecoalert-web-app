@@ -79,18 +79,19 @@ export default function MapView() {
     async function initMap() {
       // Prevent multiple initializations
       if (mapInstanceRef.current) {
+        console.warn('Map already initialized, skipping');
         return;
-      }
-
-      // Clean up any existing Leaflet instance on the container
-      if (mapRef.current && mapRef.current._leaflet_id) {
-        delete mapRef.current._leaflet_id;
       }
 
       L = (await import('leaflet')).default;
 
       // Ensure mapRef exists
       if (!mapRef.current) return;
+
+      // Clean up any existing Leaflet instance on the container element
+      if (mapRef.current._leaflet_id) {
+        delete mapRef.current._leaflet_id;
+      }
 
       const lat = parseFloat(searchParams.get('lat')) || 5.5600;
       const lng = parseFloat(searchParams.get('lng')) || -0.2057;
@@ -110,6 +111,7 @@ export default function MapView() {
         setMapReady(true);
       } catch (error) {
         console.error('Map initialization error:', error);
+        mapInstanceRef.current = null;
       }
     }
 
@@ -119,14 +121,15 @@ export default function MapView() {
       if (mapInstanceRef.current) {
         try {
           mapInstanceRef.current.remove();
+          mapInstanceRef.current = null;
+          setMapReady(false);
         } catch (error) {
           console.error('Error removing map:', error);
+          mapInstanceRef.current = null;
         }
-        mapInstanceRef.current = null;
-        setMapReady(false);
       }
     };
-  }, [searchParams]);
+  }, []);
 
   useEffect(() => {
     if (!mapReady || !mapInstanceRef.current || !L) return;
