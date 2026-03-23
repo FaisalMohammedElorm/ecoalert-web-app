@@ -61,8 +61,8 @@ export default function Navbar() {
                     to={to}
                     className={`relative flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 group ${
                       active
-                        ? 'text-eco-700'
-                        : 'text-gray-600 hover:text-gray-900'
+                        ? 'text-eco-700 dark:text-eco-400'
+                        : 'text-gray-600 dark:text-white hover:text-gray-900 dark:hover:text-gray-100'
                     }`}
                   >
                     <Icon size={16} />
@@ -122,7 +122,7 @@ export default function Navbar() {
               {/* Mobile hamburger */}
               <button
                 onClick={() => setMenuOpen(m => !m)}
-                className="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors duration-200"
+                className="md:hidden p-2 rounded-lg text-gray-600 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
               >
                 {menuOpen ? <X size={22} /> : <Menu size={22} />}
               </button>
@@ -148,8 +148,8 @@ export default function Navbar() {
                   onClick={() => setMenuOpen(false)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
                     active 
-                      ? 'bg-gradient-to-r from-eco-50 to-eco-100 text-eco-700' 
-                      : 'text-gray-700 hover:bg-gray-50'
+                      ? 'bg-gradient-to-r from-eco-50 to-eco-100 text-eco-700 dark:from-eco-900/30 dark:to-eco-800/30 dark:text-eco-400' 
+                      : 'text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800'
                   }`}
                 >
                   <Icon size={18} />

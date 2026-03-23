@@ -214,7 +214,7 @@ export default function Home() {
                   </div>
                   
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-display font-bold text-eco-600 transition-colors">
+                    <p className="text-sm font-display font-bold text-eco-400 transition-colors">
                       {report.category || 'Environmental Issue'}
                     </p>
                     <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-white mt-1">
