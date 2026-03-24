@@ -103,8 +103,7 @@ export default function MapView() {
           touchZoom: true,
           doubleClickZoom: true,
           scrollWheelZoom: true,
-          tap: true,
-          tapTolerance: 15,
+          tap: false,  // Disable tap to avoid conflicts with passive event listeners
         }).setView([lat, lng], 12);
         mapInstanceRef.current = map;
 
@@ -167,7 +166,7 @@ export default function MapView() {
   return (
     <div className="relative h-[calc(100vh-64px)] overflow-hidden">
       {/* Map container */}
-      <div ref={mapRef} className="absolute inset-0 z-0" style={{ touchAction: 'none' }} />
+      <div ref={mapRef} className="absolute inset-0 z-0" style={{ touchAction: 'manipulation' }} />
 
       {/* Top controls */}
       <div className="absolute top-4 left-4 right-4 z-10 flex items-center gap-2">

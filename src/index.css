@@ -164,6 +164,8 @@
 .leaflet-container {
   font-family: 'Syne', sans-serif;
   border-radius: 1.25rem;
+  touch-action: manipulation;
+  user-select: none;
 }
 
 .leaflet-popup-content-wrapper {
