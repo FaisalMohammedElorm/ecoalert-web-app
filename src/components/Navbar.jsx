@@ -34,21 +34,21 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 w-full overflow-x-hidden ${
         scrolled 
           ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl shadow-lg border-b border-gray-100/50 dark:border-gray-800/50' 
           : 'bg-white/60 dark:bg-gray-900/60 backdrop-blur-md border-b border-transparent'
       }`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+        <div className="w-full max-w-full mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-14 sm:h-16">
             {/* Logo */}
-            <Link to="/home" className="flex items-center gap-2 group">
+            <Link to="/home" className="flex items-center gap-1.5 sm:gap-2 group">
               <img
                 src={ecoAlertLogo}
                 alt="EcoAlert"
-                className="h-9 w-auto object-contain group-hover:scale-105 transition-transform duration-200"
+                className="h-7 sm:h-9 w-auto object-contain group-hover:scale-105 transition-transform duration-200"
               />
-              <span className="hidden sm:inline text-sm font-display font-bold bg-gradient-to-r from-eco-600 to-eco-500 bg-clip-text text-transparent">EcoAlert</span>
+              <span className="hidden sm:inline text-xs sm:text-sm font-display font-bold bg-gradient-to-r from-eco-600 to-eco-500 bg-clip-text text-transparent">EcoAlert</span>
             </Link>
 
             {/* Desktop Nav */}
@@ -59,7 +59,7 @@ export default function Navbar() {
                   <Link
                     key={to}
                     to={to}
-                    className={`relative flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 group ${
+                    className={`relative flex items-center gap-1.5 px-2 md:px-3 py-2 rounded-lg text-xs md:text-sm font-medium transition-all duration-200 group ${
                       active
                         ? 'text-eco-700 dark:text-eco-400'
                         : 'text-gray-600 dark:text-white hover:text-gray-900 dark:hover:text-gray-100'
@@ -77,37 +77,37 @@ export default function Navbar() {
             </div>
 
             {/* Right side */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3">
               <Link
                 to="/report"
-                className="hidden sm:inline-flex items-center justify-center gap-1.5 bg-gradient-to-r from-eco-500 to-eco-600 text-white font-semibold px-4 py-2 rounded-xl text-sm hover:from-eco-600 hover:to-eco-700 active:scale-95 transition-all duration-200 shadow-lg shadow-eco-500/30 hover:shadow-eco-600/40"
+                className="hidden sm:inline-flex items-center justify-center gap-1 sm:gap-1.5 bg-gradient-to-r from-eco-500 to-eco-600 text-white font-semibold px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm hover:from-eco-600 hover:to-eco-700 active:scale-95 transition-all duration-200 shadow-lg shadow-eco-500/30 hover:shadow-eco-600/40"
               >
-                <AlertTriangle size={14} />
-                Report
+                <AlertTriangle size={13} className="sm:w-4 sm:h-4" />
+                <span className="hidden sm:inline">Report</span>
               </Link>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 sm:gap-2">
                 <button 
                   onClick={toggleDarkMode}
-                  className="p-2.5 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200"
+                  className="p-2 sm:p-2.5 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200"
                   title={isDark ? 'Light mode' : 'Dark mode'}
                 >
-                  {isDark ? <Sun size={18} /> : <Moon size={18} />}
+                  {isDark ? <Sun size={16} className="sm:w-4.5 sm:h-4.5" /> : <Moon size={16} className="sm:w-4.5 sm:h-4.5" />}
                 </button>
 
                 <Link 
                   to="/notifications" 
-                  className="hidden md:inline-flex p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-eco-600 dark:hover:text-eco-400 hover:bg-eco-50 dark:hover:bg-gray-800 transition-all duration-200 relative"
+                  className="hidden md:inline-flex p-2 sm:p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-eco-600 dark:hover:text-eco-400 hover:bg-eco-50 dark:hover:bg-gray-800 transition-all duration-200 relative"
                 >
-                  <Bell size={18} />
+                  <Bell size={16} />
                   <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse" />
                 </Link>
 
                 <Link 
                   to="/profile" 
-                  className="w-9 h-9 rounded-lg bg-gradient-to-br from-eco-100 to-eco-50 dark:from-eco-900 dark:to-eco-800 flex items-center justify-center hover:shadow-md transition-all duration-200 group"
+                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-gradient-to-br from-eco-100 to-eco-50 dark:from-eco-900 dark:to-eco-800 flex items-center justify-center hover:shadow-md transition-all duration-200 group"
                 >
-                  <User size={16} className="text-eco-700 dark:text-eco-300 group-hover:text-eco-800 dark:group-hover:text-eco-200" />
+                  <User size={14} className="sm:w-4 sm:h-4 text-eco-700 dark:text-eco-300 group-hover:text-eco-800 dark:group-hover:text-eco-200" />
                 </Link>
 
                 <button 
@@ -115,7 +115,7 @@ export default function Navbar() {
                   className="hidden md:inline-flex p-2 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors duration-200"
                   title="Logout"
                 >
-                  <LogOut size={16} />
+                  <LogOut size={14} />
                 </button>
               </div>
 

@@ -89,19 +89,19 @@ export default function Report() {
 
   if (submitted) {
     return (
-      <div className="max-w-lg mx-auto px-4 sm:px-6 pb-16 pt-12 flex flex-col items-center text-center">
-        <div className="w-20 h-20 bg-eco-100 rounded-full flex items-center justify-center mb-6 animate-pulse">
-          <CheckCircle size={40} className="text-eco-500" />
+      <div className="max-w-lg mx-auto px-3 sm:px-4 md:px-6 pb-16 pt-8 sm:pt-12 flex flex-col items-center text-center">
+        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-eco-100 rounded-full flex items-center justify-center mb-4 sm:mb-6 animate-pulse">
+          <CheckCircle size={32} className="sm:w-10 sm:h-10 text-eco-500" />
         </div>
-        <h2 className="text-2xl font-display font-bold text-gray-900 mb-2">Report Submitted!</h2>
-        <p className="text-gray-500 leading-relaxed mb-8">
+        <h2 className="text-xl sm:text-2xl font-display font-bold text-gray-900 mb-2">Report Submitted!</h2>
+        <p className="text-gray-500 leading-relaxed mb-6 sm:mb-8 text-sm sm:text-base">
           Thank you for helping keep our community clean. Your report has been received and will be reviewed shortly.
         </p>
-        <div className="flex gap-3 w-full">
-          <button onClick={() => { setSubmitted(false); setForm({ location: '', description: '', category: '' }); setImage(null); setImagePreview(null); }} className="flex-1 btn-secondary">
+        <div className="flex gap-2 sm:gap-3 w-full">
+          <button onClick={() => { setSubmitted(false); setForm({ location: '', description: '', category: '' }); setImage(null); setImagePreview(null); }} className="flex-1 btn-secondary text-sm sm:text-base py-2.5 sm:py-3">
             Report Another
           </button>
-          <button onClick={() => navigate('/map')} className="flex-1 btn-primary">
+          <button onClick={() => navigate('/map')} className="flex-1 btn-primary text-sm sm:text-base py-2.5 sm:py-3">
             View on Map
           </button>
         </div>
@@ -110,23 +110,23 @@ export default function Report() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 pb-16 pt-4">
+    <div className="max-w-2xl mx-auto px-3 sm:px-4 md:px-6 pb-16 pt-3 sm:pt-4">
       <Toast toast={toast} hide={hideToast} />
-      <div className="mb-6 animate-fade-up">
-        <h1 className="text-3xl font-display font-bold text-eco-500 dark:text-eco-400">Report an Issue</h1>
-        <p className="text-gray-500 dark:text-eco-400 mt-1 text-sm">Help us identify and resolve environmental problems in your area.</p>
+      <div className="mb-4 sm:mb-6 animate-fade-up">
+        <h1 className="text-2xl sm:text-3xl font-display font-bold text-eco-500 dark:text-eco-400">Report an Issue</h1>
+        <p className="text-gray-500 dark:text-eco-400 mt-1 text-xs sm:text-sm">Help us identify and resolve environmental problems in your area.</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
         {/* Image upload */}
         <div className="animate-fade-up stagger-1">
-          <label className="label">Photo Evidence</label>
+          <label className="label text-sm sm:text-base">Photo Evidence</label>
           {imagePreview ? (
-            <div className="relative rounded-2xl overflow-hidden aspect-video group">
+            <div className="relative rounded-xl sm:rounded-2xl overflow-hidden aspect-video group">
               <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <button type="button" onClick={() => { setImage(null); setImagePreview(null); }} className="bg-white text-gray-800 rounded-xl px-4 py-2 text-sm font-semibold flex items-center gap-2">
-                  <X size={14} /> Remove Photo
+                <button type="button" onClick={() => { setImage(null); setImagePreview(null); }} className="bg-white text-gray-800 rounded-lg sm:rounded-xl px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold flex items-center gap-2">
+                  <X size={13} className="sm:w-4 sm:h-4" /> Remove Photo
                 </button>
               </div>
             </div>
@@ -134,20 +134,20 @@ export default function Report() {
             <div
               onDrop={handleDrop}
               onDragOver={handleDragOver}
-              className="border-2 border-dashed border-gray-200 rounded-2xl p-8 text-center hover:border-eco-300 hover:bg-eco-50/50 transition-all cursor-pointer group"
+              className="border-2 border-dashed border-gray-200 rounded-xl sm:rounded-2xl p-6 sm:p-8 text-center hover:border-eco-300 hover:bg-eco-50/50 transition-all cursor-pointer group"
               onClick={() => fileRef.current?.click()}
             >
-              <div className="w-14 h-14 bg-gray-100 group-hover:bg-eco-100 rounded-2xl flex items-center justify-center mx-auto mb-3 transition-colors">
-                <Upload size={24} className="text-gray-400 group-hover:text-eco-500 transition-colors" />
+              <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gray-100 group-hover:bg-eco-100 rounded-lg sm:rounded-2xl flex items-center justify-center mx-auto mb-2 sm:mb-3 transition-colors">
+                <Upload size={20} className="sm:w-6 sm:h-6 text-gray-400 group-hover:text-eco-500 transition-colors" />
               </div>
-              <p className="text-gray-600 font-medium text-sm">Drop a photo here or click to upload</p>
-              <p className="text-gray-400 text-xs mt-1">PNG, JPG up to 10MB</p>
-              <div className="flex gap-2 justify-center mt-4">
-                <button type="button" onClick={(e) => { e.stopPropagation(); fileRef.current?.click(); }} className="text-xs bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-medium transition-colors">
-                  <ImageIcon size={13} /> Gallery
+              <p className="text-gray-600 font-medium text-xs sm:text-sm">Drop a photo here or click to upload</p>
+              <p className="text-gray-400 text-xs mt-0.5 sm:mt-1">PNG, JPG up to 10MB</p>
+              <div className="flex gap-1.5 sm:gap-2 justify-center mt-2 sm:mt-4 flex-col sm:flex-row">
+                <button type="button" onClick={(e) => { e.stopPropagation(); fileRef.current?.click(); }} className="text-xs bg-gray-100 hover:bg-gray-200 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg flex items-center justify-center gap-1 font-medium transition-colors">
+                  <ImageIcon size={12} className="sm:w-4 sm:h-4" /> Gallery
                 </button>
-                <button type="button" onClick={(e) => { e.stopPropagation(); cameraRef.current?.click(); }} className="text-xs bg-eco-50 hover:bg-eco-100 text-eco-700 px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-medium transition-colors">
-                  <Camera size={13} /> Camera
+                <button type="button" onClick={(e) => { e.stopPropagation(); cameraRef.current?.click(); }} className="text-xs bg-eco-50 hover:bg-eco-100 text-eco-700 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg flex items-center justify-center gap-1 font-medium transition-colors">
+                  <Camera size={12} className="sm:w-4 sm:h-4" /> Camera
                 </button>
               </div>
             </div>

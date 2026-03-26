@@ -56,7 +56,7 @@ export default function Home() {
       {/* ═══════════════════════════════════════════════════════════
           HERO SECTION
           ═══════════════════════════════════════════════════════════ */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+      <div className="max-w-5xl mx-auto px-3 sm:px-4 md:px-6">
         <HeroSection
           greeting={`Hello ${firstName}!`}
           title="Keep Ghana Clean"
@@ -72,8 +72,8 @@ export default function Home() {
       {/* ═══════════════════════════════════════════════════════════
           STATS SECTION
           ═══════════════════════════════════════════════════════════ */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 mb-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="max-w-5xl mx-auto px-3 sm:px-4 md:px-6 mb-8 sm:mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
           {STATS.map(({ label, icon: Icon, color }, idx) => {
             const values = [total, pending, resolved];
             return (
@@ -98,33 +98,33 @@ export default function Home() {
       {/* ═══════════════════════════════════════════════════════════
           QUICK ACTIONS
           ═══════════════════════════════════════════════════════════ */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 mb-12">
+      <div className="max-w-5xl mx-auto px-3 sm:px-4 md:px-6 mb-8 sm:mb-12">
         <SectionHeader
           title="Quick Actions"
           subtitle="Start making an impact right now"
           icon={Zap}
         />
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 stagger-2 animate-fade-up">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 stagger-2 animate-fade-up">
           {QUICK_ACTIONS.map(({ id, title, icon: Icon, color, route, desc }, idx) => (
             <button
               key={id}
               onClick={() => navigate(route)}
-              className="group relative overflow-hidden card hover:shadow-xl hover:-translate-y-2 p-5 text-left"
+              className="group relative overflow-hidden card hover:shadow-xl hover:-translate-y-2 p-4 sm:p-5 text-left"
               style={{ animationDelay: `${idx * 0.1}s` }}
             >
               {/* Gradient background accent */}
               <div className="absolute -top-8 -right-8 w-32 h-32 bg-gradient-to-br opacity-5 rounded-full blur-2xl group-hover:opacity-15 transition-all duration-300" style={{ backgroundColor: color }} />
 
               <div className="relative z-10">
-                <div className="mb-4 inline-flex p-3 rounded-xl group-hover:scale-110 transition-transform duration-300" style={{ backgroundColor: `${color}15` }}>
-                  <Icon size={24} style={{ color }} />
+                <div className="mb-3 inline-flex p-2 sm:p-3 rounded-lg sm:rounded-xl group-hover:scale-110 transition-transform duration-300" style={{ backgroundColor: `${color}15` }}>
+                  <Icon size={20} className="sm:w-6 sm:h-6" style={{ color }} />
                 </div>
-                <p className="font-display font-bold text-eco-600 dark:text-eco-400 text-sm group-hover:text-eco-700 dark:group-hover:text-eco-300 transition-colors leading-tight">{title}</p>
-                <p className="text-xs text-gray-500 dark:text-white mt-1 hidden sm:block">{desc}</p>
+                <p className="font-display font-bold text-eco-600 dark:text-eco-400 text-xs sm:text-sm group-hover:text-eco-700 dark:group-hover:text-eco-300 transition-colors leading-tight">{title}</p>
+                <p className="text-xs text-gray-500 dark:text-white mt-1 hidden md:block">{desc}</p>
               </div>
 
-              <ArrowRight size={16} className="absolute bottom-4 right-4 text-gray-300 group-hover:text-eco-500 group-hover:translate-x-1 transition-all duration-300 opacity-0 group-hover:opacity-100" />
+              <ArrowRight size={14} className="sm:w-4 sm:h-4 absolute bottom-3 right-3 text-gray-300 group-hover:text-eco-500 group-hover:translate-x-1 transition-all duration-300 opacity-0 group-hover:opacity-100" />
             </button>
           ))}
         </div>
@@ -133,27 +133,27 @@ export default function Home() {
       {/* ═══════════════════════════════════════════════════════════
           LOCATION & INSIGHTS
           ═══════════════════════════════════════════════════════════ */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 mb-12">
-        <div className="grid lg:grid-cols-2 gap-4 stagger-3 animate-fade-up">
+      <div className="max-w-5xl mx-auto px-3 sm:px-4 md:px-6 mb-8 sm:mb-12">
+        <div className="grid lg:grid-cols-2 gap-3 sm:gap-4 stagger-3 animate-fade-up">
           {/* Location Card */}
           <button
             onClick={handleDetectLocation}
-            className="card hover:shadow-xl hover:-translate-y-1 p-6 flex items-center gap-4 text-left group"
+            className="card hover:shadow-xl hover:-translate-y-1 p-4 sm:p-6 flex items-center gap-3 sm:gap-4 text-left group"
           >
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-eco-100 to-eco-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-              <MapPin size={28} className="text-eco-600" />
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-eco-100 to-eco-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+              <MapPin size={24} className="sm:w-7 sm:h-7 text-eco-600" />
             </div>
-            <div>
-              <p className="font-display font-bold text-lg text-eco-400 transition-colors">Find Issues Near Me</p>
-              <p className="text-sm text-gray-500 dark:text-white mt-1">Auto-detect & browse nearby reports</p>
+            <div className="min-w-0">
+              <p className="font-display font-bold text-base sm:text-lg text-eco-400 transition-colors truncate">Find Issues Near Me</p>
+              <p className="text-xs sm:text-sm text-gray-500 dark:text-white mt-0.5 sm:mt-1 line-clamp-2">Auto-detect & browse nearby reports</p>
             </div>
           </button>
 
           {/* Activity Insights Card */}
-          <div className="card hover:shadow-xl hover:-translate-y-1">
+          <div className="card hover:shadow-xl hover:-translate-y-1 p-4 sm:p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-display font-bold text-gray-900 dark:text-eco-400">Community Activity</h3>
-              <TrendingUp size={18} className="text-eco-500" />
+              <h3 className="font-display font-bold text-sm sm:text-base text-gray-900 dark:text-eco-400">Community Activity</h3>
+              <TrendingUp size={16} className="sm:w-5 sm:h-5 text-eco-500" />
             </div>
 
             {/* Mini Chart */}
@@ -184,7 +184,7 @@ export default function Home() {
           RECENT REPORTS
           ═══════════════════════════════════════════════════════════ */}
       {recentReports.length > 0 && (
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 mb-12 stagger-4 animate-fade-up">
+        <div className="max-w-5xl mx-auto px-3 sm:px-4 md:px-6 mb-8 sm:mb-12 stagger-4 animate-fade-up">
           <SectionHeader
             title="Recent Reports"
             subtitle="Latest community contributions"

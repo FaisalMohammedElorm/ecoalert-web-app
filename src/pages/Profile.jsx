@@ -34,53 +34,53 @@ export default function Profile() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 pb-16 pt-4">
+    <div className="max-w-2xl mx-auto px-3 sm:px-4 md:px-6 pb-16 pt-3 sm:pt-4">
       {/* Profile header */}
-      <div className="card mb-4 flex flex-col items-center py-8 animate-fade-up relative">
-        <div className="relative mb-4">
-          <div className="w-20 h-20 rounded-2xl bg-eco-100 border-4 border-eco-200 flex items-center justify-center">
-            <span className="text-3xl font-display font-bold text-eco-600">{user?.name?.[0] || 'U'}</span>
+      <div className="card mb-3 sm:mb-4 flex flex-col items-center py-6 sm:py-8 animate-fade-up relative p-4 sm:p-6">
+        <div className="relative mb-3 sm:mb-4">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg sm:rounded-2xl bg-eco-100 border-4 border-eco-200 flex items-center justify-center">
+            <span className="text-2xl sm:text-3xl font-display font-bold text-eco-600">{user?.name?.[0] || 'U'}</span>
           </div>
-          <button className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-eco-500 flex items-center justify-center border-2 border-white shadow">
-            <Edit3 size={12} className="text-white" />
+          <button className="absolute -bottom-1 -right-1 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-eco-500 flex items-center justify-center border-2 border-white shadow">
+            <Edit3 size={11} className="sm:w-3.5 sm:h-3.5 text-white" />
           </button>
         </div>
-        <h2 className="text-xl font-display font-bold text-gray-900">{user?.name || 'User Name'}</h2>
-        <p className="text-gray-500 text-sm mt-0.5">{user?.email}</p>
-        <span className="mt-3 inline-flex items-center gap-1.5 bg-eco-50 text-eco-600 text-xs font-bold px-3 py-1 rounded-full border border-eco-100">
-          <Leaf size={11} /> EcoAlert Member
+        <h2 className="text-lg sm:text-xl font-display font-bold text-gray-900">{user?.name || 'User Name'}</h2>
+        <p className="text-gray-500 text-xs sm:text-sm mt-0.5">{user?.email}</p>
+        <span className="mt-2 sm:mt-3 inline-flex items-center gap-1.5 bg-eco-50 text-eco-600 text-xs font-bold px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-eco-100">
+          <Leaf size={10} className="sm:w-3 sm:h-3" /> EcoAlert Member
         </span>
       </div>
 
       {/* Impact stats */}
-      <div className="grid grid-cols-4 gap-2 mb-4 stagger-1 animate-fade-up">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 mb-3 sm:mb-4 stagger-1 animate-fade-up">
         {stats.map(({ label, value, color, icon: Icon }) => (
-          <div key={label} className="card !p-3 flex flex-col items-center text-center">
+          <div key={label} className="card !p-2.5 sm:!p-3 flex flex-col items-center text-center">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center mb-1.5" style={{ backgroundColor: `${color}18` }}>
-              <Icon size={15} style={{ color }} />
+              <Icon size={14} className="sm:w-4 sm:h-4" style={{ color }} />
             </div>
-            <p className="font-display font-bold text-gray-900 text-lg leading-none">{value}</p>
+            <p className="font-display font-bold text-gray-900 dark:text-eco-400 text-base sm:text-lg leading-none">{value}</p>
             <p className="text-xs text-gray-400 mt-0.5 leading-tight">{label}</p>
           </div>
         ))}
       </div>
 
       {/* Contact info */}
-      <div className="card mb-4 stagger-2 animate-fade-up">
+      <div className="card mb-3 sm:mb-4 stagger-2 animate-fade-up p-4 sm:p-6">
         <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">Contact Information</h3>
-        <div className="space-y-3">
+        <div className="space-y-2 sm:space-y-3">
           {[
             { icon: Mail, label: 'Email', value: user?.email || 'user@example.com' },
             { icon: Phone, label: 'Phone', value: user?.phone || '+233 24 000 0000' },
             { icon: MapPin, label: 'Location', value: user?.location || 'Accra, Ghana' },
           ].map(({ icon: Icon, label, value }) => (
-            <div key={label} className="flex items-center gap-3 py-2 border-b border-gray-50 last:border-0">
+            <div key={label} className="flex items-center gap-2 sm:gap-3 py-1.5 sm:py-2 border-b border-gray-50 last:border-0">
               <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center flex-shrink-0">
-                <Icon size={15} className="text-gray-400" />
+                <Icon size={13} className="sm:w-4 sm:h-4 text-gray-400" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <p className="text-xs text-gray-400">{label}</p>
-                <p className="text-sm font-medium text-gray-700">{value}</p>
+                <p className="text-sm font-medium text-gray-700 truncate">{value}</p>
               </div>
             </div>
           ))}
@@ -88,9 +88,9 @@ export default function Profile() {
       </div>
 
       {/* Account options */}
-      <div className="card mb-4 stagger-3 animate-fade-up">
-        <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">Account Settings</h3>
-        <div className="space-y-1">
+      <div className="card mb-4 sm:mb-6 stagger-3 animate-fade-up p-4 sm:p-6">
+        <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 sm:mb-3">Account Settings</h3>
+        <div className="space-y-0.5">
           {OPTIONS.map(({ icon: Icon, label, sub, color, action }) => (
             <button
               key={label}

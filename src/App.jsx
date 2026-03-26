@@ -18,9 +18,9 @@ import Notifications from './pages/Notifications';
 
 function AppLayout({ children }) {
   return (
-    <div className="min-h-screen bg-[#f8faf8] dark:bg-gray-950">
+    <div className="min-h-screen w-full overflow-x-hidden bg-[#f8faf8] dark:bg-gray-950">
       <Navbar />
-      <main>{children}</main>
+      <main className="w-full overflow-x-hidden">{children}</main>
     </div>
   );
 }

@@ -42,23 +42,23 @@ export default function Auth() {
   return (
     <div className="min-h-screen bg-[#f8faf8] flex">
       {/* Left panel — desktop only */}
-      <div className="hidden lg:flex lg:w-1/2 bg-eco-600 relative overflow-hidden flex-col items-center justify-center p-12">
+      <div className="hidden lg:flex lg:w-1/2 bg-eco-600 relative overflow-hidden flex-col items-center justify-center p-8 md:p-12">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(255,255,255,0.1),transparent_60%)]" />
-        <div className="absolute bottom-0 right-0 w-80 h-80 bg-eco-700/50 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-64 md:w-80 h-64 md:h-80 bg-eco-700/50 rounded-full blur-3xl" />
         <div className="relative z-10 text-center max-w-sm">
-          <div className="w-20 h-20 bg-white/15 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-white/20 p-2">
+          <div className="w-16 md:w-20 h-16 md:h-20 bg-white/15 rounded-lg md:rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6 border border-white/20 p-2">
             <img src={ecoAlertLogo} alt="EcoAlert logo" className="w-full h-full object-contain" />
           </div>
-          <h2 className="text-4xl font-display font-black text-white mb-4 leading-tight">
+          <h2 className="text-3xl md:text-4xl font-display font-black text-white mb-3 md:mb-4 leading-tight">
             Together we keep<br />Ghana clean.
           </h2>
-          <p className="text-eco-200/80 text-base leading-relaxed">
+          <p className="text-eco-200/80 text-sm md:text-base leading-relaxed">
             Join thousands of Ghanaians reporting and resolving environmental issues every day.
           </p>
-          <div className="mt-10 grid grid-cols-3 gap-4">
+          <div className="mt-8 md:mt-10 grid grid-cols-3 gap-2 md:gap-4">
             {[['2.4k+', 'Reports Filed'], ['89%', 'Resolved'], ['12+', 'Cities']].map(([v, l]) => (
-              <div key={l} className="bg-white/10 border border-white/15 rounded-xl p-3">
-                <p className="text-white font-display font-bold text-xl">{v}</p>
+              <div key={l} className="bg-white/10 border border-white/15 rounded-lg md:rounded-xl p-2 md:p-3">
+                <p className="text-white font-display font-bold text-lg md:text-xl">{v}</p>
                 <p className="text-eco-200 text-xs mt-0.5">{l}</p>
               </div>
             ))}
@@ -67,37 +67,37 @@ export default function Auth() {
       </div>
 
       {/* Right panel — form */}
-      <div className="flex-1 flex items-center justify-center p-6">
+      <div className="flex-1 flex items-center justify-center p-4 sm:p-6">
         <div className="w-full max-w-md">
           {/* Mobile logo */}
-          <div className="lg:hidden mb-8">
-            <img src={ecoAlertLogo} alt="EcoAlert logo" className="h-11 w-auto object-contain" />
+          <div className="lg:hidden mb-6 sm:mb-8">
+            <img src={ecoAlertLogo} alt="EcoAlert logo" className="h-9 sm:h-11 w-auto object-contain" />
           </div>
 
-          <h1 className="text-3xl font-display font-bold text-gray-900 mb-1">
+          <h1 className="text-2xl sm:text-3xl font-display font-bold text-gray-900 mb-1">
             {isLogin ? 'Welcome back!' : 'Create account'}
           </h1>
-          <p className="text-gray-500 text-sm mb-8">
+          <p className="text-gray-500 text-xs sm:text-sm mb-6 sm:mb-8">
             {isLogin ? 'Sign in to continue making a difference.' : 'Join the mission for a cleaner tomorrow.'}
           </p>
 
           {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-100 rounded-xl text-red-600 text-sm">
+            <div className="mb-4 p-2.5 sm:p-3 bg-red-50 border border-red-100 rounded-lg sm:rounded-xl text-red-600 text-xs sm:text-sm">
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
             {!isLogin && (
               <div>
-                <label className="label">Full Name</label>
-                <input className="input-field" placeholder="Kwame Mensah" value={form.name} onChange={set('name')} autoComplete="name" />
+                <label className="label text-sm">Full Name</label>
+                <input className="input-field text-sm" placeholder="Kwame Mensah" value={form.name} onChange={set('name')} autoComplete="name" />
               </div>
             )}
 
             <div>
-              <label className="label">Email Address</label>
-              <input className="input-field" type="email" placeholder="you@example.com" value={form.email} onChange={set('email')} autoComplete="email" />
+              <label className="label text-sm">Email Address</label>
+              <input className="input-field text-sm" type="email" placeholder="you@example.com" value={form.email} onChange={set('email')} autoComplete="email" />
             </div>
 
             {!isLogin && (

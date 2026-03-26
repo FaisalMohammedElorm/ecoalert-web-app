@@ -62,28 +62,28 @@ export default function Tracker() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 pb-16 pt-4">
-      <div className="flex items-center justify-between mb-6 animate-fade-up">
+    <div className="max-w-2xl mx-auto px-3 sm:px-4 md:px-6 pb-16 pt-3 sm:pt-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-4 sm:mb-6 animate-fade-up">
         <div>
-          <h1 className="text-3xl font-display font-bold text-gray-900">Tracker</h1>
-          <p className="text-gray-500 text-sm mt-1">Log your waste collection efforts</p>
+          <h1 className="text-2xl sm:text-3xl font-display font-bold text-gray-900">Tracker</h1>
+          <p className="text-gray-500 text-xs sm:text-sm mt-1">Log your waste collection efforts</p>
         </div>
         <button
           onClick={() => setShowForm(s => !s)}
-          className="btn-primary text-sm py-2 px-4 flex items-center gap-1.5"
+          className="btn-primary text-xs sm:text-sm py-2 sm:py-2.5 px-3 sm:px-4 flex items-center gap-1 justify-center"
         >
-          <Plus size={15} /> Log Collection
+          <Plus size={14} className="sm:w-4 sm:h-4" /> Log Collection
         </button>
       </div>
 
       {/* Request form */}
       {showForm && (
-        <div className="card mb-6 animate-fade-up border-eco-200">
-          <h3 className="font-display font-bold text-gray-800 mb-4">Log Waste Collection</h3>
-          <form onSubmit={handleRequest} className="space-y-3">
+        <div className="card mb-4 sm:mb-6 animate-fade-up border-eco-200 p-4 sm:p-6">
+          <h3 className="font-display font-bold text-gray-800 text-base sm:text-lg mb-4">Log Waste Collection</h3>
+          <form onSubmit={handleRequest} className="space-y-3 sm:space-y-4">
             <div>
-              <label className="label">Waste Category *</label>
-              <select className="input-field" value={form.category} onChange={e => setForm(p => ({ ...p, category: e.target.value }))} required>
+              <label className="label text-sm">Waste Category *</label>
+              <select className="input-field text-sm" value={form.category} onChange={e => setForm(p => ({ ...p, category: e.target.value }))} required>
                 <option value="">Select category…</option>
                 {['Plastic Waste', 'Organic Waste', 'E-Waste', 'Hazardous Waste', 'Mixed Waste', 'Road Hazard'].map(t => (
                   <option key={t} value={t}>{t}</option>
@@ -91,17 +91,17 @@ export default function Tracker() {
               </select>
             </div>
             <div>
-              <label className="label">Quantity (items) *</label>
-              <input className="input-field" type="number" placeholder="Number of items…" value={form.quantity} onChange={e => setForm(p => ({ ...p, quantity: e.target.value }))} required />
+              <label className="label text-sm">Quantity (items) *</label>
+              <input className="input-field text-sm" type="number" placeholder="Number of items…" value={form.quantity} onChange={e => setForm(p => ({ ...p, quantity: e.target.value }))} required />
             </div>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-2 sm:gap-3">
               <div className="col-span-2">
-                <label className="label">Weight <span className="normal-case font-normal text-gray-400">(optional)</span></label>
-                <input className="input-field" type="number" placeholder="Enter weight…" value={form.weight} onChange={e => setForm(p => ({ ...p, weight: e.target.value }))} step="0.1" />
+                <label className="label text-sm">Weight <span className="normal-case font-normal text-gray-400 text-xs">(optional)</span></label>
+                <input className="input-field text-sm" type="number" placeholder="Enter weight…" value={form.weight} onChange={e => setForm(p => ({ ...p, weight: e.target.value }))} step="0.1" />
               </div>
               <div>
-                <label className="label">Unit</label>
-                <select className="input-field" value={form.unit} onChange={e => setForm(p => ({ ...p, unit: e.target.value }))}>
+                <label className="label text-sm">Unit</label>
+                <select className="input-field text-sm" value={form.unit} onChange={e => setForm(p => ({ ...p, unit: e.target.value }))}>
                   <option value="kg">kg</option>
                   <option value="lbs">lbs</option>
                   <option value="g">g</option>
@@ -110,13 +110,13 @@ export default function Tracker() {
               </div>
             </div>
             <div>
-              <label className="label">Notes <span className="normal-case font-normal text-gray-400">(optional)</span></label>
-              <textarea className="input-field resize-none h-16" placeholder="Any special details…" value={form.notes} onChange={e => setForm(p => ({ ...p, notes: e.target.value }))} />
+              <label className="label text-sm">Notes <span className="normal-case font-normal text-gray-400 text-xs">(optional)</span></label>
+              <textarea className="input-field resize-none h-14 sm:h-16 text-sm" placeholder="Any special details…" value={form.notes} onChange={e => setForm(p => ({ ...p, notes: e.target.value }))} />
             </div>
             <div className="flex gap-2 pt-1">
-              <button type="button" onClick={() => setShowForm(false)} className="flex-1 btn-secondary text-sm py-2.5">Cancel</button>
-              <button type="submit" disabled={submitting} className="flex-1 btn-primary text-sm py-2.5 flex items-center justify-center gap-1.5">
-                {submitting ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <>✓ Log Collection</>}
+              <button type="button" onClick={() => setShowForm(false)} className="flex-1 btn-secondary text-xs sm:text-sm py-2 sm:py-2.5">Cancel</button>
+              <button type="submit" disabled={submitting} className="flex-1 btn-primary text-xs sm:text-sm py-2 sm:py-2.5 flex items-center justify-center gap-1">
+                {submitting ? <span className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <>✓ Log</>}
               </button>
             </div>
           </form>
