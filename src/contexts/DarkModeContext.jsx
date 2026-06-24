@@ -15,12 +15,16 @@ export function DarkModeProvider({ children }) {
     // Save to localStorage
     localStorage.setItem('ecoalert-dark-mode', JSON.stringify(isDark));
     
-    // Update document class for Tailwind dark mode
+    // Update document class for Tailwind dark mode.
+    // The `.dark` class on <html> drives Tailwind's `dark:` variants, while the
+    // `.dark` class on <body> drives the `body.dark` component rules in index.css.
     if (isDark) {
       document.documentElement.classList.add('dark');
+      document.body.classList.add('dark');
       document.documentElement.style.colorScheme = 'dark';
     } else {
       document.documentElement.classList.remove('dark');
+      document.body.classList.remove('dark');
       document.documentElement.style.colorScheme = 'light';
     }
   }, [isDark]);

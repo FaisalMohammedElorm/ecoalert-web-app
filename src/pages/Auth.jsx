@@ -40,24 +40,24 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8faf8] flex">
+    <div className="min-h-screen bg-[#f8faf8] dark:bg-alx-navy flex">
       {/* Left panel — desktop only */}
-      <div className="hidden lg:flex lg:w-1/2 bg-eco-600 relative overflow-hidden flex-col items-center justify-center p-8 md:p-12">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(255,255,255,0.1),transparent_60%)]" />
-        <div className="absolute bottom-0 right-0 w-64 md:w-80 h-64 md:h-80 bg-eco-700/50 rounded-full blur-3xl" />
+      <div className="hidden lg:flex lg:w-1/2 bg-alx-navy relative overflow-hidden flex-col items-center justify-center p-8 md:p-12">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(212,255,0,0.05),transparent_60%)]" />
+        <div className="absolute bottom-0 right-0 w-64 md:w-80 h-64 md:h-80 bg-alx-lime/10 rounded-full blur-3xl" />
         <div className="relative z-10 text-center max-w-sm">
-          <div className="w-16 md:w-20 h-16 md:h-20 bg-white/15 rounded-lg md:rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6 border border-white/20 p-2">
+          <div className="w-16 md:w-20 h-16 md:h-20 bg-alx-lime/10 rounded-lg md:rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6 border border-alx-lime/20 p-2">
             <img src={ecoAlertLogo} alt="EcoAlert logo" className="w-full h-full object-contain" />
           </div>
           <h2 className="text-3xl md:text-4xl font-display font-black text-white mb-3 md:mb-4 leading-tight">
             Together we keep<br />Ghana clean.
           </h2>
-          <p className="text-eco-200/80 text-sm md:text-base leading-relaxed">
+          <p className="text-gray-300 text-sm md:text-base leading-relaxed">
             Join thousands of Ghanaians reporting and resolving environmental issues every day.
           </p>
           <div className="mt-8 md:mt-10 grid grid-cols-3 gap-2 md:gap-4">
             {[['2.4k+', 'Reports Filed'], ['89%', 'Resolved'], ['12+', 'Cities']].map(([v, l]) => (
-              <div key={l} className="bg-white/10 border border-white/15 rounded-lg md:rounded-xl p-2 md:p-3">
+              <div key={l} className="bg-alx-lime/5 border border-alx-lime/10 rounded-lg md:rounded-xl p-2 md:p-3">
                 <p className="text-white font-display font-bold text-lg md:text-xl">{v}</p>
                 <p className="text-eco-200 text-xs mt-0.5">{l}</p>
               </div>
@@ -74,10 +74,10 @@ export default function Auth() {
             <img src={ecoAlertLogo} alt="EcoAlert logo" className="h-9 sm:h-11 w-auto object-contain" />
           </div>
 
-          <h1 className="text-2xl sm:text-3xl font-display font-bold text-gray-900 mb-1">
+          <h1 className="text-2xl sm:text-3xl font-display font-bold text-gray-900 dark:text-white mb-1">
             {isLogin ? 'Welcome back!' : 'Create account'}
           </h1>
-          <p className="text-gray-500 text-xs sm:text-sm mb-6 sm:mb-8">
+          <p className="text-gray-500 dark:text-gray-300 text-xs sm:text-sm mb-6 sm:mb-8">
             {isLogin ? 'Sign in to continue making a difference.' : 'Join the mission for a cleaner tomorrow.'}
           </p>
 
@@ -133,7 +133,7 @@ export default function Auth() {
 
             {isLogin && (
               <div className="flex justify-end">
-                <button type="button" className="text-sm text-eco-600 hover:text-eco-700 font-medium">Forgot password?</button>
+                <button type="button" className="text-sm text-alx-lime hover:text-alx-lime-light font-medium">Forgot password?</button>
               </div>
             )}
 
@@ -143,7 +143,7 @@ export default function Auth() {
               className="w-full btn-primary py-3.5 flex items-center justify-center gap-2 mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {isLoading ? (
-                <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <span className="w-5 h-5 border-2 border-alx-navy/30 border-t-alx-navy rounded-full animate-spin" />
               ) : (
                 <>
                   {isLogin ? 'Sign In' : 'Create Account'}
@@ -153,9 +153,9 @@ export default function Auth() {
             </button>
           </form>
 
-          <p className="text-center text-sm text-gray-500 mt-6">
+          <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-6">
             {isLogin ? "Don't have an account? " : 'Already have an account? '}
-            <button onClick={() => { setIsLogin(p => !p); setError(''); }} className="text-eco-600 font-semibold hover:text-eco-700">
+            <button onClick={() => { setIsLogin(p => !p); setError(''); }} className="text-alx-lime font-semibold hover:text-alx-lime-light">
               {isLogin ? 'Sign up' : 'Sign in'}
             </button>
           </p>

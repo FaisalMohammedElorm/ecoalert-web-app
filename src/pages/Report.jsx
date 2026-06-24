@@ -134,10 +134,10 @@ export default function Report() {
             <div
               onDrop={handleDrop}
               onDragOver={handleDragOver}
-              className="border-2 border-dashed border-gray-200 rounded-xl sm:rounded-2xl p-6 sm:p-8 text-center hover:border-eco-300 hover:bg-eco-50/50 transition-all cursor-pointer group"
+              className="border-2 border-dashed border-gray-200 dark:border-white/15 rounded-xl sm:rounded-2xl p-6 sm:p-8 text-center hover:border-eco-300 hover:bg-eco-50/50 dark:hover:border-eco-500/40 dark:hover:bg-eco-500/5 transition-all cursor-pointer group"
               onClick={() => fileRef.current?.click()}
             >
-              <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gray-100 group-hover:bg-eco-100 rounded-lg sm:rounded-2xl flex items-center justify-center mx-auto mb-2 sm:mb-3 transition-colors">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gray-100 dark:bg-white/10 group-hover:bg-eco-100 rounded-lg sm:rounded-2xl flex items-center justify-center mx-auto mb-2 sm:mb-3 transition-colors">
                 <Upload size={20} className="sm:w-6 sm:h-6 text-gray-400 group-hover:text-eco-500 transition-colors" />
               </div>
               <p className="text-gray-600 font-medium text-xs sm:text-sm">Drop a photo here or click to upload</p>
@@ -167,8 +167,8 @@ export default function Report() {
                 onClick={() => { setForm(p => ({ ...p, category: cat.id })); setErrors(e => ({ ...e, category: '' })); }}
                 className={`flex items-center gap-2 p-3 rounded-xl border-2 text-sm font-medium transition-all ${
                   form.category === cat.id
-                    ? 'border-eco-400 bg-eco-50 text-eco-700'
-                    : 'border-gray-100 bg-white text-gray-600 hover:border-gray-200'
+                    ? 'border-eco-400 bg-eco-50 text-eco-700 dark:bg-eco-500/15 dark:text-eco-300 dark:border-eco-500/50'
+                    : 'border-gray-100 bg-white text-gray-600 hover:border-gray-200 dark:border-white/10 dark:bg-white/5 dark:text-gray-300 dark:hover:border-white/20'
                 }`}
               >
                 <span>{cat.emoji}</span>

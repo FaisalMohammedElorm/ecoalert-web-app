@@ -170,22 +170,22 @@ export default function MapView() {
 
       {/* Top controls */}
       <div className="absolute top-4 left-4 right-4 z-10 flex items-center gap-2">
-        <div className="flex-1 bg-white rounded-xl shadow-lg border border-gray-100 px-4 py-2.5 flex items-center gap-2">
-          <MapPin size={16} className="text-eco-500 flex-shrink-0" />
-          <span className="text-sm text-gray-600 font-medium truncate">
+        <div className="flex-1 bg-white dark:bg-alx-navy-light rounded-xl shadow-lg border border-gray-100 dark:border-alx-lime/10 px-4 py-2.5 flex items-center gap-2">
+          <MapPin size={16} className="text-alx-lime flex-shrink-0" />
+          <span className="text-sm text-gray-600 dark:text-gray-300 font-medium truncate">
             {filteredReports.length} issue{filteredReports.length !== 1 ? 's' : ''} shown
             {filterStatus !== 'all' || filterCategory !== 'all' ? ' (filtered)' : ''}
           </span>
         </div>
         <button
           onClick={() => setShowFilter(f => !f)}
-          className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-lg border transition-all ${showFilter ? 'bg-eco-500 border-eco-500 text-white' : 'bg-white border-gray-100 text-gray-600'}`}
+          className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-lg border transition-all ${showFilter ? 'bg-alx-lime border-alx-lime text-alx-navy' : 'bg-white dark:bg-alx-navy-light border-gray-100 dark:border-alx-lime/10 text-gray-600 dark:text-alx-lime'}`}
         >
           <Filter size={16} />
         </button>
         <button
           onClick={() => setShowList(l => !l)}
-          className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-lg border transition-all ${showList ? 'bg-eco-500 border-eco-500 text-white' : 'bg-white border-gray-100 text-gray-600'}`}
+          className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-lg border transition-all ${showList ? 'bg-alx-lime border-alx-lime text-alx-navy' : 'bg-white dark:bg-alx-navy-light border-gray-100 dark:border-alx-lime/10 text-gray-600 dark:text-alx-lime'}`}
         >
           <List size={16} />
         </button>

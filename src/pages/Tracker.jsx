@@ -65,8 +65,8 @@ export default function Tracker() {
     <div className="max-w-2xl mx-auto px-3 sm:px-4 md:px-6 pb-16 pt-3 sm:pt-4">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-4 sm:mb-6 animate-fade-up">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-display font-bold text-gray-900">Tracker</h1>
-          <p className="text-gray-500 text-xs sm:text-sm mt-1">Log your waste collection efforts</p>
+          <h1 className="text-2xl sm:text-3xl font-display font-bold text-gray-900 dark:text-white">Tracker</h1>
+          <p className="text-gray-500 dark:text-gray-300 text-xs sm:text-sm mt-1">Log your waste collection efforts</p>
         </div>
         <button
           onClick={() => setShowForm(s => !s)}
@@ -124,13 +124,13 @@ export default function Tracker() {
       )}
 
       {/* Arrival banner */}
-      <div className="card bg-eco-50 border-eco-100 !p-4 flex items-center gap-4 mb-6 stagger-1 animate-fade-up">
-        <div className="w-12 h-12 bg-eco-100 rounded-xl flex items-center justify-center flex-shrink-0">
-          <Truck size={22} className="text-eco-600" />
+      <div className="card bg-alx-lime/10 dark:bg-alx-lime/5 border-alx-lime/20 !p-4 flex items-center gap-4 mb-6 stagger-1 animate-fade-up">
+        <div className="w-12 h-12 bg-alx-lime/20 rounded-xl flex items-center justify-center flex-shrink-0">
+          <Truck size={22} className="text-alx-lime" />
         </div>
         <div>
-          <p className="font-display font-bold text-eco-700">Truck Arriving in 5 Minutes</p>
-          <p className="text-eco-600/70 text-xs mt-0.5">Trinity Avenue · Organic Waste Collection</p>
+          <p className="font-display font-bold text-alx-lime">Truck Arriving in 5 Minutes</p>
+          <p className="text-alx-lime/70 text-xs mt-0.5">Trinity Avenue · Organic Waste Collection</p>
         </div>
       </div>
 
@@ -145,26 +145,26 @@ export default function Tracker() {
             <div key={order.id} className="card !p-4">
               <div className="flex items-start justify-between gap-2 mb-1">
                 <div className="flex-1">
-                  <p className="font-semibold text-gray-800 text-sm">{order.type}</p>
-                  <p className="text-xs text-gray-400 flex items-center gap-1 mt-0.5">
+                  <p className="font-semibold text-gray-800 dark:text-white text-sm">{order.type}</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500 flex items-center gap-1 mt-0.5">
                     <MapPin size={10} /> {order.location}
                   </p>
                 </div>
                 <span className={`text-xs font-semibold px-2.5 py-1 rounded-full whitespace-nowrap ${
-                  order.status === 'In Progress' ? 'bg-eco-50 text-eco-600' : 'bg-orange-50 text-orange-500'
+                  order.status === 'In Progress' ? 'bg-alx-lime/10 text-alx-lime' : 'bg-orange-50 dark:bg-orange-900/20 text-orange-500 dark:text-orange-400'
                 }`}>{order.status}</span>
               </div>
-              <p className="text-xs text-gray-400 mb-3 flex items-center gap-1">
+              <p className="text-xs text-gray-400 dark:text-gray-500 mb-3 flex items-center gap-1">
                 <Clock size={11} /> Scheduled {order.time}
               </p>
               <div className="flex items-center gap-3">
-                <div className="flex-1 bg-gray-100 rounded-full h-2 overflow-hidden">
+                <div className="flex-1 bg-gray-100 dark:bg-alx-navy-light rounded-full h-2 overflow-hidden">
                   <div
-                    className="h-full bg-eco-500 rounded-full transition-all duration-700"
+                    className="h-full bg-alx-lime rounded-full transition-all duration-700"
                     style={{ width: `${order.progress}%` }}
                   />
                 </div>
-                <span className="text-xs font-bold text-eco-600 w-8 text-right">{order.progress}%</span>
+                <span className="text-xs font-bold text-alx-lime w-8 text-right">{order.progress}%</span>
               </div>
             </div>
           ))}
@@ -186,11 +186,11 @@ export default function Tracker() {
             {trackings.map(tracking => (
               <div key={tracking.id} className="card !p-4 flex items-start justify-between gap-3">
                 <div>
-                  <p className="font-semibold text-gray-700 text-sm">{tracking.category}</p>
-                  <p className="text-xs text-gray-400 mt-0.5">{tracking.quantity} items · {tracking.weight} {tracking.unit}</p>
-                  {tracking.notes && <p className="text-xs text-gray-500 mt-1 italic">"{tracking.notes}"</p>}
+                  <p className="font-semibold text-gray-700 dark:text-white text-sm">{tracking.category}</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-400 mt-0.5">{tracking.quantity} items · {tracking.weight} {tracking.unit}</p>
+                  {tracking.notes && <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 italic">"{tracking.notes}"</p>}
                 </div>
-                <div className="text-right text-xs text-gray-400">
+                <div className="text-right text-xs text-gray-400 dark:text-gray-500">
                   {formatDate(tracking.date)}
                 </div>
               </div>

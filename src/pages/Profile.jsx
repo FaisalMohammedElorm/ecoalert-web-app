@@ -45,8 +45,8 @@ export default function Profile() {
             <Edit3 size={11} className="sm:w-3.5 sm:h-3.5 text-white" />
           </button>
         </div>
-        <h2 className="text-lg sm:text-xl font-display font-bold text-gray-900">{user?.name || 'User Name'}</h2>
-        <p className="text-gray-500 text-xs sm:text-sm mt-0.5">{user?.email}</p>
+        <h2 className="text-lg sm:text-xl font-display font-bold text-gray-900 dark:text-white">{user?.name || 'User Name'}</h2>
+        <p className="text-gray-500 dark:text-gray-300 text-xs sm:text-sm mt-0.5">{user?.email}</p>
         <span className="mt-2 sm:mt-3 inline-flex items-center gap-1.5 bg-eco-50 text-eco-600 text-xs font-bold px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-eco-100">
           <Leaf size={10} className="sm:w-3 sm:h-3" /> EcoAlert Member
         </span>
@@ -80,7 +80,7 @@ export default function Profile() {
               </div>
               <div className="min-w-0">
                 <p className="text-xs text-gray-400">{label}</p>
-                <p className="text-sm font-medium text-gray-700 truncate">{value}</p>
+                <p className="text-sm font-medium text-gray-700 dark:text-gray-200 truncate">{value}</p>
               </div>
             </div>
           ))}
@@ -95,13 +95,13 @@ export default function Profile() {
             <button
               key={label}
               onClick={action || (() => alert(`${label} — coming soon!`))}
-              className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors group text-left"
+              className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group text-left"
             >
               <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: `${color}18` }}>
                 <Icon size={18} style={{ color }} />
               </div>
               <div className="flex-1">
-                <p className="text-sm font-semibold text-gray-800">{label}</p>
+                <p className="text-sm font-semibold text-gray-800 dark:text-gray-100">{label}</p>
                 <p className="text-xs text-gray-400">{sub}</p>
               </div>
               <ChevronRight size={16} className="text-gray-300 group-hover:text-gray-400 transition-colors" />
