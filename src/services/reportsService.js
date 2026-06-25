@@ -184,3 +184,20 @@ export async function getUserTrackings(userId) {
   return firestoreService.getUserTrackings(userId);
 }
 
+/* ─── Admin ─── */
+
+/** [ADMIN] Get all registered users */
+export async function getAllUsers() {
+  return firestoreService.getAllUsers();
+}
+
+/** [ADMIN] Delete any report regardless of ownership */
+export async function adminDeleteReport(reportId) {
+  return firestoreService.adminDeleteReport(reportId);
+}
+
+/** [ADMIN] Set a user's role */
+export async function setUserRole(userId, role) {
+  return firestoreService.setUserRole(userId, role);
+}
+

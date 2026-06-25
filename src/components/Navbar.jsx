@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Map, Home, AlertTriangle, BarChart2, Bell, User, Menu, X, LogOut, Moon, Sun } from 'lucide-react';
+import { Map, Home, AlertTriangle, BarChart2, Bell, User, Menu, X, LogOut, Moon, Sun, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useDarkMode } from '../contexts/DarkModeContext';
 import ecoAlertLogo from '../assets/EcoAlert.png';
@@ -16,10 +16,14 @@ const NAV_LINKS = [
 export default function Navbar() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const { user, logout, isAdmin } = useAuth();
   const { isDark, toggleDarkMode } = useDarkMode();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  const navLinks = isAdmin
+    ? [...NAV_LINKS, { to: '/admin', label: 'Admin', icon: ShieldCheck }]
+    : NAV_LINKS;
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 10);
@@ -53,7 +57,7 @@ export default function Navbar() {
 
             {/* Desktop Nav */}
             <div className="hidden md:flex items-center gap-0.5">
-              {NAV_LINKS.map(({ to, label, icon: Icon }) => {
+              {navLinks.map(({ to, label, icon: Icon }) => {
                 const active = pathname === to;
                 return (
                   <Link
@@ -141,7 +145,7 @@ export default function Navbar() {
             className="absolute top-16 left-0 right-0 bg-alx-navy-light/95 backdrop-blur-md border-b border-alx-lime/10 shadow-2xl p-4 space-y-1 animate-slide-down"
             onClick={e => e.stopPropagation()}
           >
-            {NAV_LINKS.map(({ to, label, icon: Icon }) => {
+            {navLinks.map(({ to, label, icon: Icon }) => {
               const active = pathname === to;
               return (
                 <Link
@@ -162,7 +166,7 @@ export default function Navbar() {
             <div className="pt-3 mt-3 border-t border-alx-lime/10 space-y-2">
               <button
                 onClick={() => { navigate('/report'); setMenuOpen(false); }}
-                className="w-full bg-alx-lime text-alx-navy font-semibold py-2.5 text-sm justify-center rounded-xl hover:bg-alx-lime-light transition-colors duration-200 flex items-center justify-center gap-2"
+                className="w-full bg-alx-lime text-alx-navy font-semibold py-2.5 text-sm rounded-xl hover:bg-alx-lime-light transition-colors duration-200 flex items-center justify-center gap-2"
               >
                 <AlertTriangle size={15} /> Report Issue
               </button>

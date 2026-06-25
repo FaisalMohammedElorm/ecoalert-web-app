@@ -3,6 +3,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { WasteProvider } from './contexts/WasteContext';
 import { DarkModeProvider } from './contexts/DarkModeContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from './components/AdminRoute';
 import Navbar from './components/Navbar';
 
 // Pages
@@ -15,6 +16,7 @@ import Dashboard from './pages/Dashboard';
 import Tracker from './pages/Tracker';
 import Profile from './pages/Profile';
 import Notifications from './pages/Notifications';
+import Admin from './pages/Admin';
 
 function AppLayout({ children }) {
   return (
@@ -77,6 +79,13 @@ export default function App() {
                 <ProtectedRoute>
                   <AppLayout><Notifications /></AppLayout>
                 </ProtectedRoute>
+              } />
+
+              {/* Admin-only route */}
+              <Route path="/admin" element={
+                <AdminRoute>
+                  <AppLayout><Admin /></AppLayout>
+                </AdminRoute>
               } />
 
               {/* Fallback */}

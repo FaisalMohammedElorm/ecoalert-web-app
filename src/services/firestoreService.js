@@ -332,6 +332,67 @@ export const firestoreService = {
   },
 
   /**
+   * [ADMIN] Get all users
+   * @returns {Promise<{success: boolean, users?: array, error?: string}>}
+   */
+  async getAllUsers() {
+    try {
+      const usersRef = collection(db, 'users');
+      const querySnapshot = await getDocs(query(usersRef));
+      const users = [];
+
+      querySnapshot.forEach((d) => {
+        const data = d.data();
+        const created = data.createdAt;
+        users.push({
+          id: d.id,
+          ...data,
+          createdAt: created?.toDate ? created.toDate() : (created ? new Date(created) : null),
+        });
+      });
+
+      return { success: true, users };
+    } catch (error) {
+      console.error('Get users error:', error);
+      return { success: false, error: 'Failed to fetch users.' };
+    }
+  },
+
+  /**
+   * [ADMIN] Delete any report regardless of ownership.
+   * @param {string} reportId - Report ID
+   * @returns {Promise<{success: boolean, error?: string}>}
+   */
+  async adminDeleteReport(reportId) {
+    try {
+      await deleteDoc(doc(db, 'reports', reportId));
+      return { success: true };
+    } catch (error) {
+      console.error('Admin delete report error:', error);
+      return { success: false, error: 'Failed to delete report.' };
+    }
+  },
+
+  /**
+   * [ADMIN] Set a user's role (e.g. 'admin' or 'user').
+   * @param {string} userId - User ID
+   * @param {string} role - Role to assign
+   * @returns {Promise<{success: boolean, error?: string}>}
+   */
+  async setUserRole(userId, role) {
+    try {
+      await updateDoc(doc(db, 'users', userId), {
+        role,
+        updatedAt: Timestamp.now(),
+      });
+      return { success: true };
+    } catch (error) {
+      console.error('Set user role error:', error);
+      return { success: false, error: 'Failed to update user role.' };
+    }
+  },
+
+  /**
    * Get user's tracking entries
    * @param {string} userId - User ID
    * @returns {Promise<{success: boolean, trackings?: array, error?: string}>}

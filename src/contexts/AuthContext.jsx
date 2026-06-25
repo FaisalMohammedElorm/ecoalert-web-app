@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { authService } from '../services/authService';
+import { isAdminUser } from '../config/admin';
 
 const AuthContext = createContext(null);
 
@@ -84,16 +85,17 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider 
-      value={{ 
-        user, 
-        isLoading, 
-        hasSeenOnboarding, 
-        login, 
-        signup, 
-        logout, 
+    <AuthContext.Provider
+      value={{
+        user,
+        isLoading,
+        isAdmin: isAdminUser(user),
+        hasSeenOnboarding,
+        login,
+        signup,
+        logout,
         updateProfile,
-        completeOnboarding 
+        completeOnboarding
       }}
     >
       {children}

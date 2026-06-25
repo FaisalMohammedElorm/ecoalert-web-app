@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, Mail, Phone, MapPin, Recycle, Award, LogOut, Edit3, Bell, Shield, HelpCircle, Settings, ChevronRight, Leaf } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Recycle, Award, LogOut, Edit3, Bell, Shield, HelpCircle, Settings, ChevronRight, Leaf, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useWaste } from '../contexts/WasteContext';
 
 export default function Profile() {
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const { user, logout, isAdmin } = useAuth();
   const { reports } = useWaste();
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
@@ -21,6 +21,7 @@ export default function Profile() {
   ];
 
   const OPTIONS = [
+    ...(isAdmin ? [{ icon: ShieldCheck, label: 'Admin Dashboard', sub: 'Manage reports & users', color: '#0452f0', action: () => navigate('/admin') }] : []),
     { icon: Edit3, label: 'Edit Profile', sub: 'Update your personal info', color: '#4CAF50' },
     { icon: Bell, label: 'Notifications', sub: 'Manage alert preferences', color: '#FF9800', action: () => navigate('/notifications') },
     { icon: Shield, label: 'Privacy & Security', sub: 'Manage your privacy', color: '#2196F3' },

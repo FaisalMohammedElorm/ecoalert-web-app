@@ -134,7 +134,8 @@ export const authService = {
                 name: userData.name,
                 phone: userData.phone,
                 location: userData.location,
-                profilePictureUrl: userData.profilePictureUrl
+                profilePictureUrl: userData.profilePictureUrl,
+                role: userData.role || null
               });
             } else {
               resolve({
@@ -219,7 +220,8 @@ export const authService = {
               name: userData.name,
               phone: userData.phone,
               location: userData.location,
-              profilePictureUrl: userData.profilePictureUrl
+              profilePictureUrl: userData.profilePictureUrl,
+              role: userData.role || null
             });
           } else {
             // If Firestore doc doesn't exist yet, use Firebase Auth data as fallback
