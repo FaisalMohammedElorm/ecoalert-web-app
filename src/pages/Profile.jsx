@@ -74,8 +74,8 @@ export default function Profile() {
             { icon: Phone, label: 'Phone', value: user?.phone || '+233 24 000 0000' },
             { icon: MapPin, label: 'Location', value: user?.location || 'Accra, Ghana' },
           ].map(({ icon: Icon, label, value }) => (
-            <div key={label} className="flex items-center gap-2 sm:gap-3 py-1.5 sm:py-2 border-b border-gray-50 last:border-0">
-              <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center flex-shrink-0">
+            <div key={label} className="flex items-center gap-2 sm:gap-3 py-1.5 sm:py-2 border-b border-gray-50 dark:border-white/10 last:border-0">
+              <div className="w-8 h-8 rounded-lg bg-gray-50 dark:bg-white/5 flex items-center justify-center flex-shrink-0">
                 <Icon size={13} className="sm:w-4 sm:h-4 text-gray-400" />
               </div>
               <div className="min-w-0">
@@ -129,7 +129,9 @@ export default function Profile() {
         </div>
       )}
 
-      <p className="text-center text-xs text-gray-300 mt-6">EcoAlert v1.0.0 · Made with 🌿 for Ghana</p>
+      <p className="flex items-center justify-center gap-1 text-center text-xs text-gray-300 mt-6">
+        EcoAlert v1.0.0 · Made with <Leaf size={12} className="text-eco-500" /> for Ghana
+      </p>
     </div>
   );
 }

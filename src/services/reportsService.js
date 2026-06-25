@@ -1,14 +1,17 @@
 // Service layer for reports with Firestore integration
+import { Recycle, Leaf, Biohazard, TrafficCone, Trash2, Laptop } from 'lucide-react';
 import { firestoreService } from './firestoreService';
 import { storageService } from './storageService';
 
+// Each category carries a lucide-react icon component (premium vector set used
+// app-wide) in place of the previous platform emoji glyphs.
 export const CATEGORIES = [
-  { id: 'plastic', label: 'Plastic Waste', color: '#2196F3', emoji: '♻️' },
-  { id: 'organic', label: 'Organic Waste', color: '#4CAF50', emoji: '🌿' },
-  { id: 'hazardous', label: 'Hazardous Waste', color: '#F44336', emoji: '☠️' },
-  { id: 'road', label: 'Road Hazard', color: '#FF9800', emoji: '🚧' },
-  { id: 'mixed', label: 'Mixed Waste', color: '#9C27B0', emoji: '🗑️' },
-  { id: 'electronic', label: 'E-Waste', color: '#607D8B', emoji: '💻' },
+  { id: 'plastic', label: 'Plastic Waste', color: '#2196F3', icon: Recycle },
+  { id: 'organic', label: 'Organic Waste', color: '#4CAF50', icon: Leaf },
+  { id: 'hazardous', label: 'Hazardous Waste', color: '#F44336', icon: Biohazard },
+  { id: 'road', label: 'Road Hazard', color: '#FF9800', icon: TrafficCone },
+  { id: 'mixed', label: 'Mixed Waste', color: '#9C27B0', icon: Trash2 },
+  { id: 'electronic', label: 'E-Waste', color: '#607D8B', icon: Laptop },
 ];
 
 export const STATUS_CONFIG = {

@@ -4,6 +4,7 @@ import { formatDate, getCategoryConfig } from '../services/reportsService';
 
 export default function ReportCard({ report, onClick }) {
   const cat = getCategoryConfig(report.category);
+  const CatIcon = cat.icon;
 
   return (
     <div
@@ -13,10 +14,10 @@ export default function ReportCard({ report, onClick }) {
       <div className="flex items-start gap-3">
         {/* Category icon */}
         <div
-          className="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0 bg-alx-lime/10"
+          className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
           style={{ backgroundColor: `${cat.color}18` }}
         >
-          {cat.emoji}
+          <CatIcon size={20} style={{ color: cat.color }} />
         </div>
 
         <div className="flex-1 min-w-0">

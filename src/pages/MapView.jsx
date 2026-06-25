@@ -1,4 +1,5 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { MapPin, Filter, X, List, Map as MapIcon } from 'lucide-react';
 import { useWaste } from '../contexts/WasteContext';
@@ -8,13 +9,19 @@ import StatusBadge from '../components/StatusBadge';
 // Dynamically import Leaflet to avoid SSR issues
 let L;
 
+// Leaflet markers/popups are built from HTML strings, so render lucide-react
+// icons to static SVG markup for use inside them.
+function iconMarkup(IconComponent, { size = 18, color = 'currentColor', strokeWidth = 2 } = {}) {
+  return renderToStaticMarkup(createElement(IconComponent, { size, color, strokeWidth }));
+}
+
 function PopupContent({ report }) {
   const cat = getCategoryConfig(report.category);
   const status = STATUS_CONFIG[report.status] || STATUS_CONFIG.pending;
   return `
     <div style="min-width:200px;padding:4px">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-        <span style="font-size:20px">${cat.emoji}</span>
+        <span style="display:inline-flex;color:${cat.color}">${iconMarkup(cat.icon, { size: 20, color: cat.color })}</span>
         <div>
           <p style="font-family:Syne,sans-serif;font-weight:700;font-size:13px;color:#1a1a1a;margin:0">${report.category || 'Issue'}</p>
           <span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:2px 8px;border-radius:99px;background:${status.bg};color:${status.color}">
@@ -25,7 +32,7 @@ function PopupContent({ report }) {
       </div>
       <p style="font-family:Syne,sans-serif;font-size:12px;color:#666;margin:0 0 6px">${report.description?.slice(0, 100) || 'No description.'}${report.description?.length > 100 ? '…' : ''}</p>
       <p style="font-family:Syne,sans-serif;font-size:11px;color:#999;margin:0;display:flex;align-items:center;gap:4px">
-        📍 ${report.location}
+        ${iconMarkup(MapPin, { size: 12, color: '#999' })} ${report.location}
       </p>
       <p style="font-family:Syne,sans-serif;font-size:10px;color:#bbb;margin:4px 0 0">
         ${formatDate(report.createdAt)}
@@ -45,7 +52,7 @@ function createMarkerIcon(cat, L) {
       box-shadow:0 4px 12px ${cat.color}55;
       border:2px solid white;
     ">
-      <span style="transform:rotate(45deg);font-size:14px">${cat.emoji}</span>
+      <span style="transform:rotate(45deg);display:flex;color:#fff">${iconMarkup(cat.icon, { size: 18, color: '#fff', strokeWidth: 2.25 })}</span>
     </div>`,
     iconSize: [36, 36],
     iconAnchor: [18, 36],
@@ -193,9 +200,9 @@ export default function MapView() {
 
       {/* Filter panel */}
       {showFilter && (
-        <div className="absolute top-20 left-4 right-4 z-10 bg-white rounded-2xl shadow-xl border border-gray-100 p-4">
+        <div className="absolute top-20 left-4 right-4 z-10 bg-white dark:bg-alx-navy-light dark:backdrop-blur-xl rounded-2xl shadow-xl border border-gray-100 dark:border-white/10 p-4 animate-fade-down">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="font-display font-bold text-sm text-gray-800">Filter Reports</h3>
+            <h3 className="font-display font-bold text-sm text-gray-800 dark:text-white">Filter Reports</h3>
             <button onClick={() => setShowFilter(false)} className="text-gray-400 hover:text-gray-600"><X size={16} /></button>
           </div>
           <div className="mb-3">
@@ -205,7 +212,7 @@ export default function MapView() {
                 <button
                   key={s}
                   onClick={() => setFilterStatus(s)}
-                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${filterStatus === s ? 'bg-eco-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${filterStatus === s ? 'bg-eco-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-white/10 dark:text-gray-300 dark:hover:bg-white/20'}`}
                 >
                   {s.charAt(0).toUpperCase() + s.slice(1)}
                 </button>
@@ -215,17 +222,21 @@ export default function MapView() {
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Category</p>
             <div className="flex flex-wrap gap-2">
-              <button onClick={() => setFilterCategory('all')} className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${filterCategory === 'all' ? 'bg-eco-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>All</button>
-              {CATEGORIES.map(cat => (
-                <button
-                  key={cat.id}
-                  onClick={() => setFilterCategory(cat.id)}
-                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${filterCategory === cat.id ? 'text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
-                  style={filterCategory === cat.id ? { backgroundColor: cat.color } : {}}
-                >
-                  {cat.emoji} {cat.label}
-                </button>
-              ))}
+              <button onClick={() => setFilterCategory('all')} className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${filterCategory === 'all' ? 'bg-eco-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-white/10 dark:text-gray-300 dark:hover:bg-white/20'}`}>All</button>
+              {CATEGORIES.map(cat => {
+                const CatIcon = cat.icon;
+                const active = filterCategory === cat.id;
+                return (
+                  <button
+                    key={cat.id}
+                    onClick={() => setFilterCategory(cat.id)}
+                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${active ? 'text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-white/10 dark:text-gray-300 dark:hover:bg-white/20'}`}
+                    style={active ? { backgroundColor: cat.color } : {}}
+                  >
+                    <CatIcon size={13} style={active ? undefined : { color: cat.color }} /> {cat.label}
+                  </button>
+                );
+              })}
             </div>
           </div>
           {(filterStatus !== 'all' || filterCategory !== 'all') && (
@@ -236,9 +247,9 @@ export default function MapView() {
 
       {/* List panel */}
       {showList && (
-        <div className="absolute top-20 right-4 z-10 w-72 max-h-96 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden flex flex-col">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-50">
-            <h3 className="font-display font-bold text-sm text-gray-800">{filteredReports.length} Reports</h3>
+        <div className="absolute top-20 right-4 z-10 w-72 max-h-96 bg-white dark:bg-alx-navy-light dark:backdrop-blur-xl rounded-2xl shadow-xl border border-gray-100 dark:border-white/10 overflow-hidden flex flex-col animate-fade-down">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-50 dark:border-white/10">
+            <h3 className="font-display font-bold text-sm text-gray-800 dark:text-white">{filteredReports.length} Reports</h3>
             <button onClick={() => setShowList(false)} className="text-gray-400 hover:text-gray-600"><X size={16} /></button>
           </div>
           <div className="overflow-y-auto flex-1 p-2 space-y-1">
@@ -247,16 +258,22 @@ export default function MapView() {
             )}
             {filteredReports.map(report => {
               const cat = getCategoryConfig(report.category);
+              const CatIcon = cat.icon;
               return (
                 <button
                   key={report.id}
                   onClick={() => flyToReport(report)}
-                  className="w-full text-left p-3 rounded-xl hover:bg-gray-50 transition-colors flex items-start gap-2 group"
+                  className="w-full text-left p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-start gap-2 group"
                 >
-                  <span className="text-lg flex-shrink-0">{cat.emoji}</span>
+                  <span
+                    className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
+                    style={{ backgroundColor: `${cat.color}18` }}
+                  >
+                    <CatIcon size={16} style={{ color: cat.color }} />
+                  </span>
                   <div className="min-w-0 flex-1">
-                    <p className="text-xs font-semibold text-gray-800 group-hover:text-eco-600 transition-colors truncate">{report.category}</p>
-                    <p className="text-xs text-gray-400 dark:text-white truncate">{report.location}</p>
+                    <p className="text-xs font-semibold text-gray-800 dark:text-white group-hover:text-eco-600 dark:group-hover:text-eco-400 transition-colors truncate">{report.category}</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-400 truncate">{report.location}</p>
                     <StatusBadge status={report.status} />
                   </div>
                 </button>
@@ -267,13 +284,13 @@ export default function MapView() {
       )}
 
       {/* Legend */}
-      <div className="absolute bottom-6 left-4 z-10 bg-white rounded-xl shadow-lg border border-gray-100 p-3">
+      <div className="absolute bottom-6 left-4 z-10 bg-white dark:bg-alx-navy-light dark:backdrop-blur-xl rounded-xl shadow-lg border border-gray-100 dark:border-white/10 p-3">
         <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Legend</p>
         <div className="space-y-1">
           {Object.entries(STATUS_CONFIG).map(([key, config]) => (
             <div key={key} className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: config.dot }} />
-              <span className="text-xs text-gray-600">{config.label}</span>
+              <span className="text-xs text-gray-600 dark:text-gray-300">{config.label}</span>
             </div>
           ))}
         </div>

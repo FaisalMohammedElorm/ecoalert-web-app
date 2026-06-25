@@ -116,7 +116,7 @@ export default function Tracker() {
             <div className="flex gap-2 pt-1">
               <button type="button" onClick={() => setShowForm(false)} className="flex-1 btn-secondary text-xs sm:text-sm py-2 sm:py-2.5">Cancel</button>
               <button type="submit" disabled={submitting} className="flex-1 btn-primary text-xs sm:text-sm py-2 sm:py-2.5 flex items-center justify-center gap-1">
-                {submitting ? <span className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <>✓ Log</>}
+                {submitting ? <span className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><CheckCircle size={14} className="sm:w-4 sm:h-4" /> Log</>}
               </button>
             </div>
           </form>

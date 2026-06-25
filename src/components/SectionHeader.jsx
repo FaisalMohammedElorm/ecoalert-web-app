@@ -1,9 +1,11 @@
-export default function SectionHeader({ 
-  title, 
-  subtitle, 
+import { ArrowRight } from 'lucide-react';
+
+export default function SectionHeader({
+  title,
+  subtitle,
   icon: Icon,
   action,
-  actionLabel = 'View All' 
+  actionLabel = 'View All'
 }) {
   return (
     <div className="flex items-start justify-between mb-6 animate-fade-up">
@@ -17,9 +19,9 @@ export default function SectionHeader({
       {action && (
         <button
           onClick={action}
-          className="text-sm font-semibold text-alx-lime hover:text-alx-lime-light transition-colors"
+          className="inline-flex items-center gap-1 text-sm font-semibold text-alx-lime hover:text-alx-lime-light transition-colors"
         >
-          {actionLabel} →
+          {actionLabel} <ArrowRight size={15} />
         </button>
       )}
     </div>

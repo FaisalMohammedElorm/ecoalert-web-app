@@ -159,9 +159,9 @@ import {
 
 // Get all categories
 CATEGORIES.forEach(cat => {
-  console.log(cat.label, cat.emoji, cat.color);
-  // Plastic Waste ♻️ #2196F3
-  // Organic Waste 🌿 #4CAF50
+  console.log(cat.label, cat.color, cat.icon);
+  // Plastic Waste #2196F3 [lucide Recycle component]
+  // Organic Waste #4CAF50 [lucide Leaf component]
   // etc.
 });
 
@@ -171,7 +171,7 @@ console.log(STATUS_CONFIG.pending);
 
 // Get category config by label
 const config = getCategoryConfig('Plastic Waste');
-console.log(config.emoji); // ♻️
+const CatIcon = config.icon; // lucide-react component, e.g. <CatIcon size={20} />
 
 // Format dates
 console.log(formatDate(new Date()));        // "0m ago"

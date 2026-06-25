@@ -90,11 +90,11 @@ export default function Report() {
   if (submitted) {
     return (
       <div className="max-w-lg mx-auto px-3 sm:px-4 md:px-6 pb-16 pt-8 sm:pt-12 flex flex-col items-center text-center">
-        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-eco-100 rounded-full flex items-center justify-center mb-4 sm:mb-6 animate-pulse">
-          <CheckCircle size={32} className="sm:w-10 sm:h-10 text-eco-500" />
+        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-eco-100 dark:bg-eco-500/15 rounded-full flex items-center justify-center mb-4 sm:mb-6 animate-pulse">
+          <CheckCircle size={32} className="sm:w-10 sm:h-10 text-eco-500 dark:text-eco-400" />
         </div>
-        <h2 className="text-xl sm:text-2xl font-display font-bold text-gray-900 mb-2">Report Submitted!</h2>
-        <p className="text-gray-500 leading-relaxed mb-6 sm:mb-8 text-sm sm:text-base">
+        <h2 className="text-xl sm:text-2xl font-display font-bold text-gray-900 dark:text-white mb-2">Report Submitted!</h2>
+        <p className="text-gray-500 dark:text-gray-300 leading-relaxed mb-6 sm:mb-8 text-sm sm:text-base">
           Thank you for helping keep our community clean. Your report has been received and will be reviewed shortly.
         </p>
         <div className="flex gap-2 sm:gap-3 w-full">
@@ -113,8 +113,8 @@ export default function Report() {
     <div className="max-w-2xl mx-auto px-3 sm:px-4 md:px-6 pb-16 pt-3 sm:pt-4">
       <Toast toast={toast} hide={hideToast} />
       <div className="mb-4 sm:mb-6 animate-fade-up">
-        <h1 className="text-2xl sm:text-3xl font-display font-bold text-eco-500 dark:text-eco-400">Report an Issue</h1>
-        <p className="text-gray-500 dark:text-eco-400 mt-1 text-xs sm:text-sm">Help us identify and resolve environmental problems in your area.</p>
+        <h1 className="text-2xl sm:text-3xl font-display font-bold text-gray-900 dark:text-white">Report an Issue</h1>
+        <p className="text-gray-500 dark:text-gray-300 mt-1 text-xs sm:text-sm">Help us identify and resolve environmental problems in your area.</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
@@ -140,13 +140,13 @@ export default function Report() {
               <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gray-100 dark:bg-white/10 group-hover:bg-eco-100 rounded-lg sm:rounded-2xl flex items-center justify-center mx-auto mb-2 sm:mb-3 transition-colors">
                 <Upload size={20} className="sm:w-6 sm:h-6 text-gray-400 group-hover:text-eco-500 transition-colors" />
               </div>
-              <p className="text-gray-600 font-medium text-xs sm:text-sm">Drop a photo here or click to upload</p>
+              <p className="text-gray-600 dark:text-gray-300 font-medium text-xs sm:text-sm">Drop a photo here or click to upload</p>
               <p className="text-gray-400 text-xs mt-0.5 sm:mt-1">PNG, JPG up to 10MB</p>
               <div className="flex gap-1.5 sm:gap-2 justify-center mt-2 sm:mt-4 flex-col sm:flex-row">
-                <button type="button" onClick={(e) => { e.stopPropagation(); fileRef.current?.click(); }} className="text-xs bg-gray-100 hover:bg-gray-200 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg flex items-center justify-center gap-1 font-medium transition-colors">
+                <button type="button" onClick={(e) => { e.stopPropagation(); fileRef.current?.click(); }} className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-white/10 dark:text-gray-200 dark:hover:bg-white/20 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg flex items-center justify-center gap-1 font-medium transition-colors">
                   <ImageIcon size={12} className="sm:w-4 sm:h-4" /> Gallery
                 </button>
-                <button type="button" onClick={(e) => { e.stopPropagation(); cameraRef.current?.click(); }} className="text-xs bg-eco-50 hover:bg-eco-100 text-eco-700 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg flex items-center justify-center gap-1 font-medium transition-colors">
+                <button type="button" onClick={(e) => { e.stopPropagation(); cameraRef.current?.click(); }} className="text-xs bg-eco-50 hover:bg-eco-100 text-eco-700 dark:bg-eco-500/15 dark:text-eco-300 dark:hover:bg-eco-500/25 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg flex items-center justify-center gap-1 font-medium transition-colors">
                   <Camera size={12} className="sm:w-4 sm:h-4" /> Camera
                 </button>
               </div>
@@ -160,21 +160,25 @@ export default function Report() {
         <div className="animate-fade-up stagger-2">
           <label className="label">Issue Category</label>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-            {CATEGORIES.map(cat => (
-              <button
-                key={cat.id}
-                type="button"
-                onClick={() => { setForm(p => ({ ...p, category: cat.id })); setErrors(e => ({ ...e, category: '' })); }}
-                className={`flex items-center gap-2 p-3 rounded-xl border-2 text-sm font-medium transition-all ${
-                  form.category === cat.id
-                    ? 'border-eco-400 bg-eco-50 text-eco-700 dark:bg-eco-500/15 dark:text-eco-300 dark:border-eco-500/50'
-                    : 'border-gray-100 bg-white text-gray-600 hover:border-gray-200 dark:border-white/10 dark:bg-white/5 dark:text-gray-300 dark:hover:border-white/20'
-                }`}
-              >
-                <span>{cat.emoji}</span>
-                <span className="truncate">{cat.label}</span>
-              </button>
-            ))}
+            {CATEGORIES.map(cat => {
+              const CatIcon = cat.icon;
+              const selected = form.category === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  onClick={() => { setForm(p => ({ ...p, category: cat.id })); setErrors(e => ({ ...e, category: '' })); }}
+                  className={`flex items-center gap-2 p-3 rounded-xl border-2 text-sm font-medium transition-all ${
+                    selected
+                      ? 'border-eco-400 bg-eco-50 text-eco-700 dark:bg-eco-500/15 dark:text-eco-300 dark:border-eco-500/50'
+                      : 'border-gray-100 bg-white text-gray-600 hover:border-gray-200 dark:border-white/10 dark:bg-white/5 dark:text-gray-300 dark:hover:border-white/20'
+                  }`}
+                >
+                  <CatIcon size={16} className="flex-shrink-0" style={{ color: cat.color }} />
+                  <span className="truncate">{cat.label}</span>
+                </button>
+              );
+            })}
           </div>
           {errors.category && <p className="text-red-500 text-xs mt-1.5 flex items-center gap-1"><AlertTriangle size={11} />{errors.category}</p>}
         </div>

@@ -46,10 +46,10 @@ export default function Dashboard() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-5 sm:mb-6 animate-fade-up">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-display font-bold text-gray-900 dark:text-eco-400">Dashboard</h1>
-          <p className="text-gray-500 dark:text-eco-400 text-xs sm:text-sm mt-1">Community impact overview</p>
+          <h1 className="text-2xl sm:text-3xl font-display font-bold text-gray-900 dark:text-white">Dashboard</h1>
+          <p className="text-gray-500 dark:text-gray-300 text-xs sm:text-sm mt-1">Community impact overview</p>
         </div>
-        <div className="flex items-center gap-2 bg-white border border-gray-100 rounded-lg sm:rounded-xl px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm text-gray-500 shadow-sm flex-shrink-0">
+        <div className="flex items-center gap-2 bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-lg sm:rounded-xl px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm text-gray-500 dark:text-gray-300 shadow-sm flex-shrink-0">
           <Calendar size={13} className="sm:w-4 sm:h-4 text-eco-500" />
           <span className="font-medium">2025</span>
         </div>
@@ -72,9 +72,9 @@ export default function Dashboard() {
           </div>
           <TrendingUp size={32} className="sm:w-10 sm:h-10 text-eco-200 flex-shrink-0" />
         </div>
-        <div className="w-full bg-gray-100 rounded-full h-2.5 sm:h-3 overflow-hidden">
+        <div className="w-full bg-gray-100 dark:bg-white/10 rounded-full h-2.5 sm:h-3 overflow-hidden">
           <div
-            className="h-full bg-eco-500 rounded-full transition-all duration-1000"
+            className="h-full bg-gradient-to-r from-eco-500 to-eco-400 rounded-full transition-all duration-1000"
             style={{ width: `${resolutionRate}%` }}
           />
         </div>
@@ -86,7 +86,7 @@ export default function Dashboard() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 mb-4 sm:mb-6">
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-1">Monthly Activity</p>
-            <p className="font-display font-bold text-gray-800 dark:text-eco-400 text-base sm:text-lg">Reports Over Time</p>
+            <p className="font-display font-bold text-gray-800 dark:text-white text-base sm:text-lg">Reports Over Time</p>
           </div>
           <BarChart2 size={18} className="sm:w-5 sm:h-5 text-eco-400 flex-shrink-0" />
         </div>

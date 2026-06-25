@@ -2,11 +2,11 @@ import { useNavigate } from 'react-router-dom';
 import {
   Camera, Truck, Map, BarChart2, MapPin,
   ArrowRight, Leaf, CheckCircle, AlertTriangle,
-  Clock, TrendingUp, Users, Zap, Shield
+  Clock, TrendingUp, Users, Zap, Globe
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useWaste } from '../contexts/WasteContext';
-import { formatDate, STATUS_CONFIG } from '../services/reportsService';
+import { formatDate, STATUS_CONFIG, getCategoryConfig } from '../services/reportsService';
 import Toast, { useToast } from '../components/Toast';
 import HeroSection from '../components/HeroSection';
 import GradientCard from '../components/GradientCard';
@@ -169,8 +169,8 @@ export default function Home() {
             </div>
 
             <div className="flex items-center justify-between text-sm">
-              <p className="text-gray-600">
-                <span className="font-display font-bold text-eco-600"><AnimatedCounter end={resolved} /></span> resolved this month
+              <p className="text-gray-600 dark:text-gray-300">
+                <span className="font-display font-bold text-eco-600 dark:text-eco-400"><AnimatedCounter end={resolved} /></span> resolved this month
               </p>
               <div className="flex items-center gap-2 text-xs font-semibold text-eco-600">
                 <Users size={14} /> Accra
@@ -196,13 +196,9 @@ export default function Home() {
           <div className="space-y-2">
             {recentReports.map((report, idx) => {
               const statusCfg = STATUS_CONFIG[report.status] || STATUS_CONFIG.pending;
-              const emoji =
-                report.category === 'Plastic Waste' ? '♻️' :
-                report.category === 'Organic Waste' ? '🌿' :
-                report.category === 'Hazardous Waste' ? '☠️' :
-                report.category === 'Road Hazard' ? '🚧' :
-                report.category === 'E-Waste' ? '💻' : '🗑️';
-              
+              const cat = getCategoryConfig(report.category);
+              const CatIcon = cat.icon;
+
               return (
                 <button
                   key={report.id}
@@ -210,10 +206,13 @@ export default function Home() {
                   className="card p-4 flex items-center gap-4 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 group w-full text-left"
                   style={{ animationDelay: `${idx * 0.05}s` }}
                 >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-eco-100 to-eco-50 flex items-center justify-center flex-shrink-0 text-xl group-hover:scale-110 transition-transform duration-300">
-                    {emoji}
+                  <div
+                    className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300"
+                    style={{ backgroundColor: `${cat.color}18` }}
+                  >
+                    <CatIcon size={22} style={{ color: cat.color }} />
                   </div>
-                  
+
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-display font-bold text-eco-400 transition-colors">
                       {report.category || 'Environmental Issue'}
@@ -250,8 +249,9 @@ export default function Home() {
           <div className="absolute -left-10 -bottom-10 w-32 h-32 bg-white/10 rounded-full blur-2xl animate-pulse-soft" />
 
           <div className="relative z-10 flex-1">
-            <h3 className="text-lg sm:text-2xl md:text-3xl font-display font-black text-white leading-tight">
-              🌍 Ready to Make a Difference?
+            <h3 className="flex items-center gap-2 text-lg sm:text-2xl md:text-3xl font-display font-black text-white leading-tight">
+              <Globe size={24} className="flex-shrink-0 sm:w-7 sm:h-7" />
+              Ready to Make a Difference?
             </h3>
             <p className="text-eco-200/90 text-xs sm:text-sm md:text-base mt-1 sm:mt-2">
               Join thousands of Ghanaians keeping our communities clean. Report an issue today!
