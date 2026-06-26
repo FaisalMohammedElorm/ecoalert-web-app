@@ -9,7 +9,7 @@ import Toast, { useToast } from '../components/Toast';
 export default function Report() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { addWasteReport } = useWaste();
+  const { refreshReports } = useWaste();
   const fileRef = useRef(null);
   const cameraRef = useRef(null);
 

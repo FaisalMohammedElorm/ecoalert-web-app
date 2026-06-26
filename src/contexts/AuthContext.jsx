@@ -14,22 +14,17 @@ export function AuthProvider({ children }) {
     const onboarding = localStorage.getItem('eco_onboarding');
     setHasSeenOnboarding(onboarding === 'true');
 
-    // Set a timeout to prevent indefinite loading (max 5 seconds)
-    const timeout = setTimeout(() => {
-      setIsLoading(false);
-    }, 5000);
+    // Restore the session from the stored JWT (if any).
+    let active = true;
+    (async () => {
+      const currentUser = await authService.getCurrentUser();
+      if (active) {
+        setUser(currentUser);
+        setIsLoading(false);
+      }
+    })();
 
-    // Subscribe to Firebase Auth state changes
-    const unsubscribe = authService.onAuthStateChanged((firebaseUser) => {
-      clearTimeout(timeout);
-      setUser(firebaseUser);
-      setIsLoading(false);
-    });
-
-    return () => {
-      unsubscribe();
-      clearTimeout(timeout);
-    };
+    return () => { active = false; };
   }, []);
 
   const login = async (email, password) => {

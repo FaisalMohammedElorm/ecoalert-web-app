@@ -1,6 +1,6 @@
-// Service layer for reports with Firestore integration
+// Service layer for reports, backed by the EcoAlert REST API.
 import { Recycle, Leaf, Biohazard, TrafficCone, Trash2, Laptop } from 'lucide-react';
-import { firestoreService } from './firestoreService';
+import { apiService } from './apiService';
 import { storageService } from './storageService';
 
 // Each category carries a lucide-react icon component (premium vector set used
@@ -85,8 +85,8 @@ export async function createReport(reportData, imageFile = null) {
       imageUrl = uploadResult.url;
     }
 
-    // Create report in Firestore
-    const result = await firestoreService.createReport({
+    // Create report via the API
+    const result = await apiService.createReport({
       ...reportData,
       imageUrl
     });
@@ -107,7 +107,7 @@ export async function createReport(reportData, imageFile = null) {
  * @returns {Promise<object>} Result object with reports array
  */
 export async function getReports(filters = {}) {
-  return firestoreService.getReports(filters);
+  return apiService.getReports(filters);
 }
 
 /**
@@ -116,7 +116,7 @@ export async function getReports(filters = {}) {
  * @returns {Promise<object>} Result object with report data
  */
 export async function getReportById(reportId) {
-  return firestoreService.getReportById(reportId);
+  return apiService.getReportById(reportId);
 }
 
 /**
@@ -125,7 +125,7 @@ export async function getReportById(reportId) {
  * @returns {Promise<object>} Result object with reports array
  */
 export async function getUserReports(userId) {
-  return firestoreService.getReports({ userId });
+  return apiService.getReports({ userId });
 }
 
 /**
@@ -135,7 +135,17 @@ export async function getUserReports(userId) {
  * @returns {Promise<object>} Result object
  */
 export async function updateReportStatus(reportId, status) {
-  return firestoreService.updateReportStatus(reportId, status);
+  return apiService.updateReportStatus(reportId, status);
+}
+
+/**
+ * Update a report
+ * @param {string} reportId - Report ID
+ * @param {object} reportData - Report fields to update
+ * @returns {Promise<object>} Result object
+ */
+export async function updateReport(reportId, reportData) {
+  return apiService.updateReport(reportId, reportData);
 }
 
 /**
@@ -144,7 +154,7 @@ export async function updateReportStatus(reportId, status) {
  * @returns {Promise<object>} Result object
  */
 export async function deleteReport(reportId) {
-  return firestoreService.deleteReport(reportId);
+  return apiService.deleteReport(reportId);
 }
 
 /**
@@ -154,7 +164,7 @@ export async function deleteReport(reportId) {
  * @returns {Promise<object>} Result object
  */
 export async function addComment(reportId, text) {
-  return firestoreService.addComment(reportId, text);
+  return apiService.addComment(reportId, text);
 }
 
 /**
@@ -163,7 +173,7 @@ export async function addComment(reportId, text) {
  * @returns {Promise<object>} Result object
  */
 export async function verifyReport(reportId) {
-  return firestoreService.verifyReport(reportId);
+  return apiService.verifyReport(reportId);
 }
 
 /**
@@ -172,7 +182,7 @@ export async function verifyReport(reportId) {
  * @returns {Promise<object>} Result object
  */
 export async function createTracking(trackingData) {
-  return firestoreService.createTracking(trackingData);
+  return apiService.createTracking(trackingData);
 }
 
 /**
@@ -181,23 +191,22 @@ export async function createTracking(trackingData) {
  * @returns {Promise<object>} Result object with trackings array
  */
 export async function getUserTrackings(userId) {
-  return firestoreService.getUserTrackings(userId);
+  return apiService.getUserTrackings(userId);
 }
 
 /* ─── Admin ─── */
 
 /** [ADMIN] Get all registered users */
 export async function getAllUsers() {
-  return firestoreService.getAllUsers();
+  return apiService.getAllUsers();
 }
 
 /** [ADMIN] Delete any report regardless of ownership */
 export async function adminDeleteReport(reportId) {
-  return firestoreService.adminDeleteReport(reportId);
+  return apiService.adminDeleteReport(reportId);
 }
 
 /** [ADMIN] Set a user's role */
 export async function setUserRole(userId, role) {
-  return firestoreService.setUserRole(userId, role);
+  return apiService.setUserRole(userId, role);
 }
-

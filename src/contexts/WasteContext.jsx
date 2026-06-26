@@ -1,4 +1,5 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import { getReports } from '../services/reportsService';
 
 const WasteContext = createContext(null);
 
@@ -76,31 +77,36 @@ export function WasteProvider({ children }) {
   const [pickupRequests, setPickupRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const stored = localStorage.getItem('eco_reports');
-    const storedPickups = localStorage.getItem('eco_pickups');
-    const userReports = stored ? JSON.parse(stored) : [];
-    // Merge seed reports with user reports
-    setReports([...SEED_REPORTS, ...userReports]);
-    setPickupRequests(storedPickups ? JSON.parse(storedPickups) : []);
+  // Load reports from the backend API. Falls back to local seed data only if
+  // the request fails (e.g. the API server isn't running), so the demo still
+  // renders something.
+  const refreshReports = useCallback(async () => {
+    const result = await getReports();
+    if (result.success) {
+      setReports(result.reports);
+    } else {
+      setReports(SEED_REPORTS);
+    }
     setIsLoading(false);
   }, []);
 
+  useEffect(() => {
+    const storedPickups = localStorage.getItem('eco_pickups');
+    setPickupRequests(storedPickups ? JSON.parse(storedPickups) : []);
+    refreshReports();
+  }, [refreshReports]);
+
+  // Optimistically add a report to local state (the canonical write goes through
+  // reportsService.createReport → API; callers can also just call refreshReports).
   const addWasteReport = (report) => {
     const newReport = {
       ...report,
-      id: Date.now().toString(),
-      status: 'pending',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      id: report.id || Date.now().toString(),
+      status: report.status || 'pending',
+      createdAt: report.createdAt || new Date().toISOString(),
+      updatedAt: report.updatedAt || new Date().toISOString(),
     };
-    setReports(prev => {
-      const updated = [...prev, newReport];
-      // Only persist user reports (not seeds)
-      const userReports = updated.filter(r => !r.id.startsWith('seed-'));
-      localStorage.setItem('eco_reports', JSON.stringify(userReports));
-      return updated;
-    });
+    setReports(prev => [newReport, ...prev]);
     return newReport;
   };
 
@@ -127,7 +133,7 @@ export function WasteProvider({ children }) {
   return (
     <WasteContext.Provider value={{
       reports, pickupRequests, isLoading,
-      addWasteReport, addPickupRequest,
+      addWasteReport, addPickupRequest, refreshReports,
       getPendingReports, getVerifiedReports, getResolvedReports,
     }}>
       {children}
