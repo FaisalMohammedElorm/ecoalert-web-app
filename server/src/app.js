@@ -12,7 +12,10 @@ import uploadRoutes from './routes/uploadRoutes.js';
 
 const app = express();
 
+// CORS allows the Vite frontend to call this API from a different localhost
+// port during development. CLIENT_ORIGIN can be locked down in production.
 app.use(cors({ origin: process.env.CLIENT_ORIGIN || true }));
+// Express JSON parsing makes req.body available for application/json requests.
 app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));

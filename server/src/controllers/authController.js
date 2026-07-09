@@ -2,8 +2,9 @@ import bcrypt from 'bcryptjs';
 import User from '../models/User.js';
 import { signToken } from '../utils/token.js';
 
-// POST /api/auth/signup
-export async function signup(req, res, next) {
+// Shared register handler for both /signup and /register. MongoDB stores only
+// passwordHash, never the raw password.
+export async function register(req, res, next) {
   try {
     const { email, password, name = '', phone = '' } = req.body;
     if (!email || !password) {
@@ -25,6 +26,9 @@ export async function signup(req, res, next) {
     next(err);
   }
 }
+
+// POST /api/auth/signup
+export const signup = register;
 
 // POST /api/auth/login
 export async function login(req, res, next) {
@@ -50,6 +54,13 @@ export async function login(req, res, next) {
 // GET /api/auth/me
 export async function me(req, res) {
   res.json({ user: req.user.toSafeJSON() });
+}
+
+// POST /api/auth/logout
+export async function logout(req, res) {
+  // JWT logout is client-side: the frontend deletes its token. This endpoint
+  // gives the REST API an explicit logout route for apps that expect one.
+  res.json({ success: true, message: 'Logged out successfully.' });
 }
 
 // PUT /api/auth/profile

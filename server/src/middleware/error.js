@@ -22,6 +22,10 @@ export function errorHandler(err, req, res, _next) {
   if (err.name === 'ValidationError') {
     return res.status(400).json({ message: Object.values(err.errors)[0]?.message || 'Validation failed.' });
   }
+  // Invalid MongoDB ObjectId values, for example /api/reports/not-an-id.
+  if (err.name === 'CastError') {
+    return res.status(400).json({ message: 'Invalid resource id.' });
+  }
 
   res.status(err.status || 500).json({ message: err.message || 'Something went wrong.' });
 }

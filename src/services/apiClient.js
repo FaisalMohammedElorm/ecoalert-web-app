@@ -1,5 +1,8 @@
-// Lightweight fetch wrapper for the EcoAlert REST API.
-// This is the single point of backend communication.
+import axios from 'axios';
+
+// Axios instance for the EcoAlert REST API. Keeping every backend request here
+// means components do not need to know where the server lives or how JWT auth is
+// attached.
 
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 const TOKEN_KEY = 'eco_token';
@@ -10,37 +13,41 @@ export const tokenStore = {
   clear: () => localStorage.removeItem(TOKEN_KEY),
 };
 
-/**
- * Make an API request.
- * @param {string} path - e.g. '/reports'
- * @param {object} opts - { method, body, auth, isForm }
- */
-export async function apiFetch(path, { method = 'GET', body, auth = true, isForm = false } = {}) {
-  const headers = {};
-  if (!isForm) headers['Content-Type'] = 'application/json';
+export const apiClient = axios.create({
+  baseURL: BASE_URL,
+  headers: { 'Content-Type': 'application/json' },
+});
 
+// Axios interceptors run before every request. This one reads the JWT from
+// localStorage and sends it as a Bearer token for protected Express routes.
+apiClient.interceptors.request.use((config) => {
   const token = tokenStore.get();
-  if (auth && token) headers['Authorization'] = `Bearer ${token}`;
-
-  const res = await fetch(`${BASE_URL}${path}`, {
-    method,
-    headers,
-    body: isForm ? body : body != null ? JSON.stringify(body) : undefined,
-  });
-
-  let data = null;
-  try {
-    data = await res.json();
-  } catch {
-    /* empty / non-JSON response */
+  if (config.authRequired !== false && token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
+  if (typeof FormData !== 'undefined' && config.data instanceof FormData) {
+    delete config.headers['Content-Type'];
+  }
+  return config;
+});
 
-  if (!res.ok) {
-    const error = new Error(data?.message || `Request failed (${res.status})`);
-    error.status = res.status;
+// Keeps the existing service API stable while switching the implementation from
+// fetch to Axios. `isForm` lets Axios set the multipart boundary itself.
+export async function apiFetch(path, { method = 'GET', body, auth = true, isForm = false } = {}) {
+  try {
+    const response = await apiClient.request({
+      url: path,
+      method,
+      data: body,
+      authRequired: auth,
+      headers: isForm ? {} : undefined,
+    });
+    return response.data;
+  } catch (err) {
+    const error = new Error(err.response?.data?.message || err.message || 'Request failed.');
+    error.status = err.response?.status;
     throw error;
   }
-  return data;
 }
 
 export { BASE_URL };

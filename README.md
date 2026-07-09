@@ -1,71 +1,39 @@
-# EcoAlert Web
+# EcoAlert MERN App
 
-EcoAlert is a React + Tailwind web app for reporting and tracking environmental issues. The app talks to a Node.js + Express REST API with MongoDB, JWT authentication, bcrypt password hashing, and local image uploads.
+EcoAlert is a complete MERN stack application for reporting and tracking environmental issues. The React frontend talks to an Express REST API, and the API stores users, reports, and tracking entries in MongoDB Atlas through Mongoose.
 
 ## Tech Stack
 
-- Frontend: React 18, Vite, Tailwind CSS, React Router, Leaflet, Lucide React
-- Backend: Node.js, Express, MongoDB, Mongoose
-- Auth: JWT access tokens, bcryptjs password hashing
-- Uploads: Multer disk storage served from `server/uploads`
+- MongoDB Atlas + Mongoose
+- Express + Node.js
+- React 18 + Vite + Tailwind CSS
+- JWT authentication + bcrypt password hashing
+- Axios for frontend API requests
+- Multer for authenticated image uploads
 
 ## Project Structure
 
 ```text
 src/
   components/
-  config/
   contexts/
   pages/
-  services/
-    apiClient.js
-    apiService.js
-    authService.js
-    reportsService.js
-    storageService.js
+  services/          # Axios API client and frontend data services
 
 server/
   src/
-    config/
-    controllers/
-    middleware/
-    models/
-    routes/
-    utils/
+    config/          # MongoDB connection
+    controllers/     # Request handlers
+    middleware/      # Auth, admin, upload, and error handling
+    models/          # Mongoose schemas
+    routes/          # Express route definitions
+    utils/           # Token and serialization helpers
     app.js
     server.js
-    seed.js
   uploads/
 ```
 
-## Environment Setup
-
-Create the frontend env file:
-
-```bash
-cp .env.example .env.local
-```
-
-Create the backend env file:
-
-```bash
-cp server/.env.example server/.env
-```
-
-Edit `server/.env` and set:
-
-```env
-PORT=5000
-MONGODB_URI=mongodb://127.0.0.1:27017/ecoalert
-JWT_SECRET=replace_with_a_long_random_secret
-JWT_EXPIRES_IN=7d
-CLIENT_ORIGIN=http://localhost:5173
-ADMIN_EMAILS=femohammed@st.ug.edu.gh
-```
-
-For production, use a long random `JWT_SECRET` and a hosted MongoDB URI.
-
-## Install
+## Install Dependencies
 
 Install frontend dependencies:
 
@@ -73,45 +41,85 @@ Install frontend dependencies:
 npm install
 ```
 
-Install backend dependencies:
+Install backend dependencies, including MongoDB/Mongoose packages:
 
 ```bash
 npm --prefix server install
 ```
 
-## Run Locally
+## Configure MongoDB Atlas
 
-Start MongoDB locally, then run the backend:
+1. Create a free cluster at MongoDB Atlas.
+2. Create a database user and save the username/password.
+3. Add your IP address in Atlas under Network Access.
+4. Copy the connection string and choose a database name, for example `ecoalert`.
+5. Create the backend env file:
+
+```bash
+cp server/.env.example server/.env
+```
+
+6. Update `server/.env`:
+
+```env
+PORT=5000
+MONGODB_URI=mongodb+srv://<username>:<password>@<cluster-url>/ecoalert?retryWrites=true&w=majority
+JWT_SECRET=replace_with_a_long_random_secret
+JWT_EXPIRES_IN=7d
+CLIENT_ORIGIN=http://localhost:5173
+ADMIN_EMAILS=femohammed@st.ug.edu.gh
+```
+
+Do not commit real `.env` files or secrets.
+
+## Configure Frontend
+
+Create the frontend env file:
+
+```bash
+cp .env.example .env.local
+```
+
+Default value:
+
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+
+## Start the App
+
+Start the backend:
 
 ```bash
 npm run server:dev
 ```
 
-In a second terminal, run the frontend:
+Start the frontend in a second terminal:
 
 ```bash
 npm run dev
 ```
 
 Frontend: `http://localhost:5173`
+
 Backend health check: `http://localhost:5000/api/health`
 
-Optional seed data:
+## Authentication API
 
-```bash
-npm run server:seed
-```
-
-The seed creates `demo@ecoalert.app` with password `demo1234` and sample Accra reports.
-
-## API Overview
-
-Auth:
-
-- `POST /api/auth/signup`
+- `POST /api/auth/register`
+- `POST /api/auth/signup` for older frontend compatibility
 - `POST /api/auth/login`
+- `POST /api/auth/logout`
 - `GET /api/auth/me`
 - `PUT /api/auth/profile`
+
+Protected routes require:
+
+```http
+Authorization: Bearer <jwt_token>
+```
+
+## Main REST APIs
 
 Reports:
 
@@ -124,22 +132,26 @@ Reports:
 - `POST /api/reports/:id/verify`
 - `POST /api/reports/:id/comments`
 
-Uploads:
-
-- `POST /api/upload` with multipart field `image`
-
 Tracking:
 
 - `GET /api/tracking`
 - `POST /api/tracking`
+
+Uploads:
+
+- `POST /api/upload` with multipart field `image`
 
 Admin users:
 
 - `GET /api/users`
 - `PUT /api/users/:id/role`
 
-## Backend Notes
+## Optional Seed Data
 
-The frontend uses `src/services/apiService.js` for data, `src/services/authService.js` for authentication, and `src/services/storageService.js` for image uploads.
+After configuring MongoDB Atlas:
 
-Uploaded files are saved in `server/uploads` and exposed at `/uploads/<filename>`.
+```bash
+npm run server:seed
+```
+
+The seed creates a demo user and sample reports.
