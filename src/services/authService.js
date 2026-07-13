@@ -58,6 +58,43 @@ export const authService = {
     }
   },
 
+  async requestPasswordReset(email) {
+    try {
+      await apiFetch('/auth/request-password-reset', { method: 'POST', auth: false, body: { email } });
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  },
+
+  async resetPassword(email, token, password) {
+    try {
+      const { token: newToken, user } = await apiFetch('/auth/reset-password', { method: 'POST', auth: false, body: { email, token, password } });
+      tokenStore.set(newToken);
+      return { success: true, user };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  },
+
+  async sendVerificationEmail(email) {
+    try {
+      await apiFetch('/auth/send-verification', { method: 'POST', auth: false, body: { email } });
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  },
+
+  async verifyEmail(token, email) {
+    try {
+      await apiFetch(`/auth/verify-email?token=${encodeURIComponent(token)}&email=${encodeURIComponent(email)}`, { auth: false });
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  },
+
   async updateUserProfile(data) {
     try {
       const { user } = await apiFetch('/auth/profile', { method: 'PUT', body: data });

@@ -22,6 +22,11 @@ const userSchema = new mongoose.Schema(
     reportsCount: { type: Number, min: 0, default: 0 },
     verifiedReportsCount: { type: Number, min: 0, default: 0 },
     profilePictureUrl: { type: String, trim: true, default: '' },
+    emailVerified: { type: Boolean, default: false, index: true },
+    emailVerificationToken: { type: String, select: false },
+    emailVerificationExpires: { type: Date, select: false },
+    resetPasswordToken: { type: String, select: false },
+    resetPasswordExpires: { type: Date, select: false },
   },
   // timestamps adds createdAt and updatedAt to every User document.
   { timestamps: true }
@@ -38,6 +43,7 @@ userSchema.methods.toSafeJSON = function () {
     phone: this.phone,
     location: this.location,
     role: this.role,
+    emailVerified: this.emailVerified,
     reportsCount: this.reportsCount,
     verifiedReportsCount: this.verifiedReportsCount,
     profilePictureUrl: this.profilePictureUrl,

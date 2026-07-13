@@ -133,7 +133,7 @@ export default function Auth() {
 
             {isLogin && (
               <div className="flex justify-end">
-                <button type="button" className="text-sm text-alx-lime hover:text-alx-lime-light font-medium">Forgot password?</button>
+                <button type="button" onClick={() => navigate('/reset-password')} className="text-sm text-alx-lime hover:text-alx-lime-light font-medium">Forgot password?</button>
               </div>
             )}
 

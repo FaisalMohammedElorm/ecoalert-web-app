@@ -23,6 +23,25 @@ const reportSchema = new mongoose.Schema(
       latitude: { type: Number, min: -90, max: 90, default: 0 },
       longitude: { type: Number, min: -180, max: 180, default: 0 },
     },
+    // New GeoJSON Point for geospatial queries. Keep `coordinates` for
+    // backward compatibility during migration — `geo` will be the primary
+    // field used for $geo queries once populated.
+    geo: {
+      type: {
+        type: String,
+        enum: ['Point'],
+        default: 'Point',
+      },
+      coordinates: {
+        type: [Number], // [ longitude, latitude ]
+        validate: {
+          validator: function (v) {
+            return Array.isArray(v) && v.length === 2 && typeof v[0] === 'number' && typeof v[1] === 'number';
+          },
+          message: 'Geo coordinates must be an array of [lng, lat].',
+        },
+      },
+    },
     location: { type: String, trim: true, maxlength: 180, default: '' },
     status: { type: String, enum: ['pending', 'verified', 'resolved'], default: 'pending', index: true },
     verificationCount: { type: Number, min: 0, default: 0 },
@@ -33,5 +52,8 @@ const reportSchema = new mongoose.Schema(
   // timestamps adds createdAt and updatedAt to every Report document.
   { timestamps: true }
 );
+
+// 2dsphere index for efficient geospatial queries.
+reportSchema.index({ geo: '2dsphere' });
 
 export default mongoose.model('Report', reportSchema);

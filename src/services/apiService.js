@@ -19,10 +19,16 @@ export const apiService = {
       if (filters.status) params.set('status', filters.status);
       if (filters.userId) params.set('userId', filters.userId);
       if (filters.category) params.set('category', filters.category);
+      if (filters.page) params.set('page', String(filters.page));
       if (filters.limit) params.set('limit', String(filters.limit));
+      if (filters.minLat !== undefined) params.set('minLat', String(filters.minLat));
+      if (filters.maxLat !== undefined) params.set('maxLat', String(filters.maxLat));
+      if (filters.minLng !== undefined) params.set('minLng', String(filters.minLng));
+      if (filters.maxLng !== undefined) params.set('maxLng', String(filters.maxLng));
       const qs = params.toString();
-      const { reports } = await apiFetch(`/reports${qs ? `?${qs}` : ''}`, { auth: false });
-      return { success: true, reports };
+      const data = await apiFetch(`/reports${qs ? `?${qs}` : ''}`, { auth: false });
+      // Preserve backward-compatible shape: returns reports array and meta when available.
+      return { success: true, reports: data.reports || [], meta: data.meta || null };
     } catch (error) {
       return { success: false, error: error.message, reports: [] };
     }

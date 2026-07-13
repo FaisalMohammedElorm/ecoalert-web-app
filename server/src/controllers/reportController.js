@@ -6,17 +6,44 @@ import { serializeReport } from '../utils/serialize.js';
 // GET /api/reports?status=&userId=&category=&limit=
 export async function listReports(req, res, next) {
   try {
-    const { status, userId, category, limit } = req.query;
+    const {
+      status, userId, category,
+      page = 1, limit = 50,
+      minLat, maxLat, minLng, maxLng,
+    } = req.query;
+
     const filter = {};
     if (status) filter.status = status;
     if (userId) filter.userId = userId;
     if (category) filter.category = category;
 
-    let q = Report.find(filter).sort({ createdAt: -1 });
-    if (limit) q = q.limit(Number(limit));
+    // Bounding box filter for map views: prefer GeoJSON `geo` queries for
+    // performance; fall back to legacy numeric `coordinates` field if `geo`
+    // isn't populated yet for some documents.
+    if (minLat !== undefined && maxLat !== undefined && minLng !== undefined && maxLng !== undefined) {
+      const box = [[Number(minLng), Number(minLat)], [Number(maxLng), Number(maxLat)]];
+      filter.$or = [
+        { geo: { $geoWithin: { $box: box } } },
+        { 'coordinates.latitude': { $gte: Number(minLat), $lte: Number(maxLat) }, 'coordinates.longitude': { $gte: Number(minLng), $lte: Number(maxLng) } },
+      ];
+    }
 
-    const reports = await q.exec();
-    res.json({ reports: reports.map(serializeReport) });
+    const pageNum = Math.max(Number(page) || 1, 1);
+    const perPage = Math.min(Number(limit) || 50, 200);
+
+    const total = await Report.countDocuments(filter);
+    const totalPages = Math.ceil(total / perPage);
+
+    const reports = await Report.find(filter)
+      .sort({ createdAt: -1 })
+      .skip((pageNum - 1) * perPage)
+      .limit(perPage)
+      .exec();
+
+    res.json({
+      reports: reports.map(serializeReport),
+      meta: { total, page: pageNum, perPage, totalPages },
+    });
   } catch (err) {
     next(err);
   }
@@ -39,6 +66,10 @@ export async function createReport(req, res, next) {
     const { category, title, description, imageUrl, coordinates, location } = req.body;
     if (!category) return res.status(400).json({ message: 'Category is required.' });
 
+    const geoPoint = (coordinates && typeof coordinates.latitude === 'number' && typeof coordinates.longitude === 'number')
+      ? { type: 'Point', coordinates: [coordinates.longitude, coordinates.latitude] }
+      : undefined;
+
     const report = await Report.create({
       userId: req.user._id,
       category,
@@ -49,6 +80,7 @@ export async function createReport(req, res, next) {
         latitude: coordinates?.latitude ?? 0,
         longitude: coordinates?.longitude ?? 0,
       },
+      geo: geoPoint,
       location: location || '',
     });
 
@@ -104,6 +136,11 @@ export async function updateReport(req, res, next) {
     const allowed = ['category', 'title', 'description', 'imageUrl', 'coordinates', 'location'];
     for (const key of allowed) {
       if (req.body[key] !== undefined) report[key] = req.body[key];
+    }
+
+    // If coordinates are provided or updated, set the `geo` Point accordingly
+    if (req.body.coordinates && typeof req.body.coordinates.latitude === 'number' && typeof req.body.coordinates.longitude === 'number') {
+      report.geo = { type: 'Point', coordinates: [req.body.coordinates.longitude, req.body.coordinates.latitude] };
     }
 
     await report.save();

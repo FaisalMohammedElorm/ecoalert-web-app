@@ -81,7 +81,8 @@ export function WasteProvider({ children }) {
   // the request fails (e.g. the API server isn't running), so the demo still
   // renders something.
   const refreshReports = useCallback(async () => {
-    const result = await getReports();
+    // Request first page with a reasonable limit for map/list rendering.
+    const result = await getReports({ page: 1, limit: 100 });
     if (result.success) {
       setReports(result.reports);
     } else {

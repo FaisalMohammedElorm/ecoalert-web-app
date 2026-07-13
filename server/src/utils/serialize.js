@@ -11,8 +11,10 @@ export function serializeReport(r) {
     description: r.description,
     imageUrl: r.imageUrl,
     coordinates: r.coordinates,
-    lat: r.coordinates?.latitude,
-    lng: r.coordinates?.longitude,
+    // Prefer GeoJSON `geo` coordinates if present, otherwise fall back to
+    // legacy numeric `coordinates` field for backward compatibility.
+    lat: r.geo?.coordinates?.[1] ?? r.coordinates?.latitude,
+    lng: r.geo?.coordinates?.[0] ?? r.coordinates?.longitude,
     location: r.location,
     status: r.status,
     verificationCount: r.verificationCount,

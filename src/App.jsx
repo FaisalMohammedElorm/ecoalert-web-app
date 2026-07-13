@@ -9,6 +9,8 @@ import Navbar from './components/Navbar';
 // Pages
 import Onboarding from './pages/Onboarding';
 import Auth from './pages/Auth';
+import ResetPassword from './pages/ResetPassword';
+import VerifyEmail from './pages/VerifyEmail';
 import Home from './pages/Home';
 import Report from './pages/Report';
 import MapView from './pages/MapView';
@@ -43,6 +45,8 @@ export default function App() {
               <Route path="/" element={<Navigate to="/onboarding" replace />} />
               <Route path="/onboarding" element={<Onboarding />} />
               <Route path="/auth" element={<Auth />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/verify-email" element={<VerifyEmail />} />
 
               {/* Protected routes with navbar */}
               <Route path="/home" element={
