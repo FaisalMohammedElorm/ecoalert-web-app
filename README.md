@@ -72,6 +72,16 @@ ADMIN_EMAILS=femohammed@st.ug.edu.gh
 
 Do not commit real `.env` files or secrets.
 
+## Seed the Database
+
+After the backend is configured and the MongoDB cluster is reachable, run the seed script once to create the demo user and sample reports:
+
+```bash
+npm --prefix server run seed
+```
+
+This is not executed automatically on server start. If the database is empty, the app will still run, but the demo user and initial sample reports will only appear after seeding.
+
 ## Configure Frontend
 
 Create the frontend env file:
