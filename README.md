@@ -1,167 +1,140 @@
-# EcoAlert MERN App
+# EcoAlert — Environmental Reporting Platform
 
-EcoAlert is a complete MERN stack application for reporting and tracking environmental issues. The React frontend talks to an Express REST API, and the API stores users, reports, and tracking entries in MongoDB Atlas through Mongoose.
+EcoAlert is a citizen-driven environmental reporting platform. Citizens report hazards —
+illegal dumping, overflowing bins, blocked drains, flooding, water and air pollution, bush
+fires, illegal mining, tree cutting, and other environmental issues — with a photo and a GPS
+pin. Environmental officers review, assign, and resolve them. Administrators oversee users,
+categories, and district-wide analytics. Flooding is one category among many — this is a
+general-purpose environmental reporting system, not a flood-specific tool.
 
-## Tech Stack
+## Project structure
 
-- MongoDB Atlas + Mongoose
-- Express + Node.js
-- React 18 + Vite + Tailwind CSS
-- JWT authentication + bcrypt password hashing
-- Axios for frontend API requests
-- Multer for authenticated image uploads
-
-## Project Structure
-
-```text
-src/
-  components/
-  contexts/
-  pages/
-  services/          # Axios API client and frontend data services
-
-server/
-  src/
-    config/          # MongoDB connection
-    controllers/     # Request handlers
-    middleware/      # Auth, admin, upload, and error handling
-    models/          # Mongoose schemas
-    routes/          # Express route definitions
-    utils/           # Token and serialization helpers
-    app.js
-    server.js
-  uploads/
+```
+EcoAlert-Environmental-Platform/
+├── frontend/           Next.js 14 + TypeScript + Tailwind — citizen/officer/admin web app
+│   ├── src/
+│   ├── public/
+│   ├── package.json
+│   ├── .env.example
+│   └── README.md
+├── backend/            Express + TypeScript + MongoDB — REST API
+│   ├── src/
+│   │   ├── config/ controllers/ middleware/ models/ routes/ services/ validators/ utils/ types/
+│   ├── tests/
+│   ├── docs/API.md
+│   ├── package.json
+│   ├── Dockerfile
+│   └── .env.example
+├── docs/
+│   └── ARCHITECTURE.md
+├── docker-compose.yml
+├── .env.example
+├── .gitignore
+└── README.md            (this file)
 ```
 
-## Install Dependencies
-
-Install frontend dependencies:
+## Quick start — Docker (recommended)
 
 ```bash
+cp .env.example .env   # fill in JWT secrets at minimum
+docker compose up --build
+```
+
+- Frontend: http://localhost:3000
+- Backend: http://localhost:5000/api/v1 (health check at `/api/v1/health`)
+- MongoDB: persisted in the `mongodb_data` volume
+
+## Quick start — local (no Docker)
+
+Requires Node 20+ and a MongoDB instance (local or Atlas).
+
+```bash
+# Backend
+cd backend
 npm install
-```
+cp .env.example .env       # set MONGODB_URI, JWT_SECRET, JWT_REFRESH_SECRET at minimum
+npm run dev                 # http://localhost:5000
 
-Install backend dependencies, including MongoDB/Mongoose packages:
-
-```bash
-npm --prefix server install
-```
-
-## Configure MongoDB Atlas
-
-1. Create a free cluster at MongoDB Atlas.
-2. Create a database user and save the username/password.
-3. Add your IP address in Atlas under Network Access.
-4. Copy the connection string and choose a database name, for example `ecoalert`.
-5. Create the backend env file:
-
-```bash
-cp server/.env.example server/.env
-```
-
-6. Update `server/.env`:
-
-```env
-PORT=5000
-MONGODB_URI=mongodb+srv://<username>:<password>@<cluster-url>/ecoalert?retryWrites=true&w=majority
-JWT_SECRET=replace_with_a_long_random_secret
-JWT_EXPIRES_IN=7d
-CLIENT_ORIGIN=http://localhost:5173
-ADMIN_EMAILS=femohammed@st.ug.edu.gh
-```
-
-Do not commit real `.env` files or secrets.
-
-## Seed the Database
-
-After the backend is configured and the MongoDB cluster is reachable, run the seed script once to create the demo user and sample reports:
-
-```bash
-npm --prefix server run seed
-```
-
-This is not executed automatically on server start. If the database is empty, the app will still run, but the demo user and initial sample reports will only appear after seeding.
-
-## Configure Frontend
-
-Create the frontend env file:
-
-```bash
+# Frontend, in a second terminal
+cd frontend
+npm install
 cp .env.example .env.local
+npm run dev                  # http://localhost:3000
 ```
 
-Default value:
+## Creating the first admin account
 
-```env
-VITE_API_URL=http://localhost:5000/api
-```
-
-## Start the App
-
-Start the backend:
+Every registration defaults to `citizen`. There is no admin account out of the box — run this
+once against your backend to create one:
 
 ```bash
-npm run server:dev
+cd backend
+ADMIN_NAME="Your Name" ADMIN_EMAIL=admin@example.com ADMIN_PASSWORD=SomeStrongPass1 npm run seed:admin
 ```
 
-Start the frontend in a second terminal:
+Safe to re-run — it's a no-op if an admin already exists. If a user with that email already
+exists, it promotes them to admin instead of erroring.
+
+## Environment variables
+
+| Variable | Where | Required | Notes |
+| --- | --- | --- | --- |
+| `MONGODB_URI` | backend | ✅ | Local: `mongodb://localhost:27017/ecoalert`. Atlas: `mongodb+srv://<user>:<password>@<cluster-host>/ecoalert?retryWrites=true&w=majority&appName=<app-name>` — include a database name in the path, Atlas's generated string omits one by default |
+| `JWT_SECRET` / `JWT_REFRESH_SECRET` | backend | ✅ | long random strings, must differ from each other |
+| `CLIENT_URL` | backend | ✅ | used for CORS + links in emails, e.g. `http://localhost:3000` |
+| `CLOUDINARY_*` | backend | optional | image upload no-ops gracefully without it (reports still create, just without images) |
+| `EMAIL_*` | backend | optional | email sends no-op with a warning log if unset |
+| `NEXT_PUBLIC_API_URL` | frontend | ✅ | e.g. `http://localhost:5000/api/v1` |
+| `NEXT_PUBLIC_MAP_API_KEY` | frontend | optional | unused by the Leaflet/OSM map picker; reserved if you swap to Google Maps |
+
+Full lists with defaults: `backend/.env.example`, `frontend/.env.example`.
+
+## Commands
+
+| | Frontend | Backend |
+| --- | --- | --- |
+| Dev server | `npm run dev` | `npm run dev` |
+| Production build | `npm run build` | `npm run build` |
+| Start production build | `npm run start` | `npm run start` |
+| Lint | `npm run lint` | `npm run lint` |
+| Tests | `npm test` (Vitest) | `npm test` (Jest) |
+
+## Docker
 
 ```bash
-npm run dev
+docker compose up --build      # all three services
+docker compose down            # stop
+docker compose down -v         # stop and wipe the Mongo volume
 ```
 
-Frontend: `http://localhost:5173`
+Each service also has a standalone `Dockerfile` if you want to build/deploy them independently.
 
-Backend health check: `http://localhost:5000/api/health`
+## Documentation
 
-## Authentication API
+- [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) — system diagram, DB schema, folder structure rationale, future AI/IoT extension points
+- [`backend/docs/API.md`](./backend/docs/API.md) — full REST API reference with request/response examples
+- [`frontend/README.md`](./frontend/README.md) / [`backend/README.md`](./backend/README.md) — service-specific detail
 
-- `POST /api/auth/register`
-- `POST /api/auth/signup` for older frontend compatibility
-- `POST /api/auth/login`
-- `POST /api/auth/logout`
-- `GET /api/auth/me`
-- `PUT /api/auth/profile`
+## Known limitations
 
-Protected routes require:
+- **Connecting to MongoDB Atlas requires your IP to be whitelisted.** In Atlas, go to
+  Network Access and add your machine's IP (or `0.0.0.0/0` to allow from anywhere, fine for
+  development). Without this, the server will log `Could not connect to any servers in your
+  MongoDB Atlas cluster` and exit — this is Atlas rejecting the connection, not a bug in the
+  app; `connectDatabase()` is designed to fail loudly and exit rather than start in a broken
+  state.
 
-```http
-Authorization: Bearer <jwt_token>
-```
-
-## Main REST APIs
-
-Reports:
-
-- `GET /api/reports`
-- `GET /api/reports/:id`
-- `POST /api/reports`
-- `PUT /api/reports/:id`
-- `PUT /api/reports/:id/status`
-- `DELETE /api/reports/:id`
-- `POST /api/reports/:id/verify`
-- `POST /api/reports/:id/comments`
-
-Tracking:
-
-- `GET /api/tracking`
-- `POST /api/tracking`
-
-Uploads:
-
-- `POST /api/upload` with multipart field `image`
-
-Admin users:
-
-- `GET /api/users`
-- `PUT /api/users/:id/role`
-
-## Optional Seed Data
-
-After configuring MongoDB Atlas:
-
-```bash
-npm run server:seed
-```
-
-The seed creates a demo user and sample reports.
+- **Email and image upload are optional at runtime.** Without `EMAIL_*` / `CLOUDINARY_*`
+  configured, those features no-op gracefully (logged as warnings) rather than failing —
+  intentional for easy local evaluation, but set them for production use.
+- **Backend tests need a `mongod` binary.** `mongodb-memory-server` downloads one on first run;
+  in fully offline/network-restricted environments, pre-seed the binary cache or set
+  `MONGOMS_SYSTEM_BINARY` to a locally installed `mongod`.
+- **SMS/push notifications and AI image classification are architected for but not implemented**
+  (see `docs/ARCHITECTURE.md` → "Future-ready extension points") — the current notification and
+  report-image pipelines are built so adding either is additive, not a rewrite.
+- **No per-user notification channel preferences** — everyone gets in-app + email; there's no
+  opt-out UI.
+- **No geographic/radius filtering on reports** — status, category, severity, search, sorting
+  (by newest/oldest or severity rank), and pagination are all wired; filtering by distance from
+  a point is not.
